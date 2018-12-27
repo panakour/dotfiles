@@ -14,6 +14,7 @@ upgrade
 ./build-essentials.sh
 ./browsers.sh
 ./nvm.sh
+./docker.sh
 #./compression_tools.sh
 ./git.sh
 ./image_tools.sh
