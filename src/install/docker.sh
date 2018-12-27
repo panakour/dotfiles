@@ -10,6 +10,9 @@ print_in_purple "\n   Docker\n\n"
 
 install_package "Docker" "docker.io"
 install_package "Docker Compose" "docker-compose"
-execute \
-    "sudo groupadd docker" \
-    "sudo usermod -aG docker $USER"
+
+if [ ! "$(getent group docker)" ]; then
+    execute "sudo groupadd docker"
+fi
+
+execute "sudo usermod -aG docker $USER"
