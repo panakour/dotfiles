@@ -30,11 +30,6 @@ if has("unnamedplus")          " │ as the default register.
     set clipboard+=unnamedplus " │
 endif                          " ┘
 
-set cpoptions+=$               " When making a change, don't
-                               " redisplay the line, and instead,
-                               " put a `$` sign at the end of
-                               " the changed text.
-
 set colorcolumn=73             " Highlight certain column(s).
 set cursorline                 " Highlight the current line.
 set directory=~/.vim/swaps     " Set directory for swap files.
@@ -145,6 +140,7 @@ function! InitPlugins() abort
     call minpac#add('tpope/vim-fugitive')
     call minpac#add('tpope/vim-surround')
     call minpac#add('terryma/vim-multiple-cursors')
+    call minpac#add('scrooloose/nerdtree')
 
 endfunction
 
