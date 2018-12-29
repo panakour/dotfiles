@@ -23,5 +23,6 @@ upgrade
 ./npm.sh
 ./tmux.sh
 ./vim.sh
+./vscode.sh
 
 ./cleanup.sh
