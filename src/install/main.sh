@@ -24,5 +24,6 @@ upgrade
 ./tmux.sh
 ./vim.sh
 ./vscode.sh
+./laradock.sh
 
 ./cleanup.sh
