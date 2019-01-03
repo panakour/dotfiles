@@ -18,11 +18,17 @@ download_laradock() {
 prepare() {
     execute "cp $LARADOCK_DIRECTORY/env-example $LARADOCK_DIRECTORY/.env"
     set_xdebug
+    set_memcached
 }
 
 set_xdebug() {
     execute "sed -i 's/INSTALL_XDEBUG=false/INSTALL_XDEBUG=true/g' $LARADOCK_DIRECTORY/.env" \
         "Set xdebug"
+}
+
+set_memcached() {
+    execute "sed -i 's/INSTALL_MEMCACHED=false/INSTALL_MEMCACHED=true/g' $LARADOCK_DIRECTORY/.env" \
+        "Set memcached"
 }
 
 build_images_and_create_containers() {
@@ -33,6 +39,9 @@ build_images_and_create_containers() {
 
 if [ ! -d "$LARADOCK_DIRECTORY" ]; then
     download_laradock
+    prepare
+    build_images_and_create_containers
+else
     prepare
     build_images_and_create_containers
 fi
