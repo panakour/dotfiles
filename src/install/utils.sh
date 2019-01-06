@@ -48,6 +48,16 @@ install_package() {
 
 }
 
+install_package_via_snap() {
+
+    declare -r EXTRA_ARGUMENTS="$3"
+    declare -r PACKAGE="$2"
+    declare -r PACKAGE_READABLE_NAME="$1"
+
+    execute "sudo snap install $EXTRA_ARGUMENTS $PACKAGE" "$PACKAGE_READABLE_NAME"
+
+}
+
 package_is_installed() {
     dpkg -s "$1" &> /dev/null
 }
