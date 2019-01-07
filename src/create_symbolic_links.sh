@@ -30,6 +30,8 @@ create_symlinks() {
         "vim/vim"
         "vim/vimrc"
 
+        "conky/conkyrc"
+
     )
 
     local i=""
