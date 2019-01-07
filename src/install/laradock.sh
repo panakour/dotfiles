@@ -33,7 +33,7 @@ set_memcached() {
 
 build_images_and_create_containers() {
     execute "cd $LARADOCK_DIRECTORY && \
-        docker-compose create --build workspace php-fpm nginx mysql" \
+        docker-compose up --no-start workspace php-fpm nginx mysql" \
         "Build images and create containers"
 }
 
