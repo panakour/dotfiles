@@ -8,8 +8,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Docker\n\n"
 
-install_package "Docker" "docker.io"
-install_package "Docker Compose" "docker-compose"
+install_package_via_snap "Docker" "docker"
 
 if [ ! "$(getent group docker)" ]; then
     execute "sudo groupadd docker"
