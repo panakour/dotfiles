@@ -5,7 +5,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-find "$HOME" -name '.PhpStorm*' | while read line; do
+find "$HOME" -maxdepth 1 -type d -name '.PhpStorm*' | while read line; do
     execute \
     "ln -fs $(pwd)/config/options/* $line/config/options/" \
     "$line/config/options/ → $(pwd)/config/options/*"
