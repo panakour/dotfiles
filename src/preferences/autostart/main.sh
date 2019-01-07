@@ -7,8 +7,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Autostart\n\n"
 
-find . -name '*.desktop' | while read line; do
+find ./apps/ -type f -name '*.desktop' | awk -F/ '{print $NF}' | while read line; do
     execute \
-    "ln -fs $(pwd)/$line $HOME/.config/autostart/$line" \
-    "$HOME/.config/autostart/$line → $(pwd)/$line"
+    "ln -fs $(pwd)/apps/$line $HOME/.config/autostart/$line" \
+    "$HOME/.config/autostart/$line → $(pwd)/apps/$line"
 done

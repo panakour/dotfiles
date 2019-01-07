@@ -20,11 +20,13 @@ main() {
         -type f \
         ! -path '../src/shell/curlrc' \
         ! -path '../src/shell/inputrc' \
+        ! -path '../src/preferences/autostart/apps/*' \
         -exec shellcheck \
                 -e SC1090 \
                 -e SC1091 \
                 -e SC2155 \
                 -e SC2164 \
+                -e SC2162 \
         {} +
 
     print_result $? "Run code through ShellCheck"
