@@ -24,5 +24,6 @@ upgrade
 ./tmux.sh
 ./vim.sh
 ./laradock.sh
+./golang.sh
 
 ./cleanup.sh
