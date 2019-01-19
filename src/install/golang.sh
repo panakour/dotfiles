@@ -15,7 +15,8 @@ add_path() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    execute "printf '%s' '$CONFIGS' >> $LOCAL_SHELL_CONFIG_FILE"
+    execute "printf '%s' '$CONFIGS' >> $LOCAL_SHELL_CONFIG_FILE" \
+            "go bin dir to PATH"
 
 }
 
