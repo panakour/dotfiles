@@ -15,8 +15,10 @@ add_path() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    execute "printf '%s' '$CONFIGS' >> $LOCAL_SHELL_CONFIG_FILE" \
-            "go bin dir to PATH"
+    if ! grep -q "$CONFIGS" "$LOCAL_SHELL_CONFIG_FILE"; then
+        execute "printf '%s' '$CONFIGS' >> $LOCAL_SHELL_CONFIG_FILE" \
+                "go bin dir to PATH"
+    fi
 
 }
 
