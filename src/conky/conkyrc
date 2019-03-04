@@ -45,6 +45,7 @@ Host:$alignr$nodename
 Uptime:$alignr$uptime
 File System: $alignr${fs_type}
 Processes: $alignr ${execi 1000 ps aux | wc -l}
+Distribution: $alignr ${execi 999999 lsb_release -ds}
 
 ${font sans-serif:bold:size=10}CPU ${hr 2}
 ${font sans-serif:normal:size=8}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}
