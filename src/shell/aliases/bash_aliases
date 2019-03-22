@@ -97,5 +97,5 @@ function larastop(){
 }
 
 function artisan(){
-   docker exec --user=laradock $(docker ps -q --filter ancestor=laradock_workspace) php $1/artisan $2
+   docker exec --user=laradock "$(docker ps -q --filter ancestor=laradock_workspace)" php "$1"/artisan "$2"
 }
