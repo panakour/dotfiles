@@ -74,6 +74,30 @@ alias local-ip="ifconfig \
 alias remove="sudo apt-get purge --auto-remove"
 alias _copy="xclip -selection clipboard"
 
+function phpup() {
+    execute "cd ~/Code/mydocker/ && make uplocal" \
+        "START LEMP Stack"
+}
+
+phpcontainer=phpdock_php-fpm
+
+function phpbash() {
+    docker exec --user=www-data -it "$(docker ps -q --filter ancestor=${phpcontainer})" bash
+}
+
+function nginxrestart() {
+    nginxcontainer=phpdock_nginx
+    docker restart "$(docker ps -q --filter ancestor=${nginxcontainer})"
+}
+
+function art(){
+   dirName="$1";
+   shift;
+   args="$*";
+   cmd=`echo php "${dirName}"/artisan "${args}"`
+   docker exec --user=www-data "$(docker ps -q --filter ancestor=${phpcontainer})" ${cmd}
+}
+
 laradockPath=~/Code/laradock
 
 function laraup() {
@@ -94,8 +118,4 @@ function lararestart(){
 function larastop(){
 	cd $laradockPath
 	docker-compose stop
-}
-
-function artisan(){
-   docker exec --user=laradock "$(docker ps -q --filter ancestor=laradock_workspace)" php "$1"/artisan "$2"
 }
