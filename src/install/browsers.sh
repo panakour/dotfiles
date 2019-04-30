@@ -23,6 +23,7 @@ if ! package_is_installed "google-chrome-unstable"; then
 
 fi
 
+install_package "Chrome" "google-chrome-stable"
 install_package "Chrome Canary" "google-chrome-unstable"
 install_package_via_snap "Chromium" "chromium"
 
