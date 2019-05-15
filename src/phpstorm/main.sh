@@ -18,9 +18,10 @@ find "$HOME" -maxdepth 1 -type d -name '.PhpStorm*' | while read line; do
 
     for i in "${CONFIG_DIRS[@]}"; do
 
+        phpStormConfigDir="$line/config/${i}"
         configDir="$(pwd)/config/$i"
-        if [[ ! -e "$configDir" ]]; then
-             mkdir $configDir
+        if [[ ! -e "$phpStormConfigDir" ]]; then
+             mkdir -p $phpStormConfigDir
         fi
         execute \
         "ln -fs $configDir/* $line/config/${i}" \
