@@ -7,14 +7,24 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   PhpStorm\n\n"
 
+declare -a CONFIG_DIRS=(
+    "options"
+    "fileTemplates/includes"
+    "codestyles"
+    "keymaps"
+)
+
 find "$HOME" -maxdepth 1 -type d -name '.PhpStorm*' | while read line; do
-    execute \
-    "ln -fs $(pwd)/config/options/* $line/config/options/" \
-    "$line/config/options/ → $(pwd)/config/options/*"
-    execute \
-    "ln -fs $(pwd)/config/fileTemplates/includes/* $line/config/fileTemplates/includes/" \
-    "$line/config/fileTemplates/includes/ → $(pwd)/config/fileTemplates/includes/*"
-    execute \
-    "ln -fs $(pwd)/config/codestyles/* $line/config/codestyles/" \
-    "$line/config/codestyles/ → $(pwd)/config/codestyles/*"
+
+    for i in "${CONFIG_DIRS[@]}"; do
+
+        configDir="$(pwd)/config/$i"
+        if [[ ! -e "$configDir" ]]; then
+             mkdir $configDir
+        fi
+        execute \
+        "ln -fs $configDir/* $line/config/${i}" \
+        "$line/config/${i} → $configDir/*"
+    done
+
 done
