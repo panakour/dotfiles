@@ -23,7 +23,7 @@ upgrade
 ./tmux.sh
 ./vim.sh
 ./docker.sh
-./laradock.sh
+./phpdock.sh
 ./golang.sh
 
 ./cleanup.sh

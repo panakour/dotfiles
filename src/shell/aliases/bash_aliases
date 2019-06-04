@@ -74,15 +74,19 @@ alias local-ip="ifconfig \
 alias remove="sudo apt-get purge --auto-remove"
 alias _copy="xclip -selection clipboard"
 
+function dockerstopall() {
+    docker stop $(docker ps -qa)
+}
+
 function phpup() {
-    execute "cd ~/Code/mydocker/ && make uplocal" \
-        "START LEMP Stack"
+    execute "cd ~/Code/phpdock/ && make uplocal" \
+        "START PHPDOCK"
 }
 
 phpcontainer=phpdock_php-fpm
 
 function phpbash() {
-    docker exec --user=www-data -it "$(docker ps -q --filter ancestor=${phpcontainer})" bash
+    docker exec --user=www-data -it "$(docker ps -q --filter ancestor=${phpcontainer})" sh
 }
 
 function nginxrestart() {
@@ -96,26 +100,4 @@ function art(){
    args="$*";
    cmd=`echo php "${dirName}"/artisan "${args}"`
    docker exec --user=www-data "$(docker ps -q --filter ancestor=${phpcontainer})" ${cmd}
-}
-
-laradockPath=~/Code/laradock
-
-function laraup() {
-	cd $laradockPath
-	docker-compose up -d nginx mysql
-}
-
-function larabash() {
-	cd $laradockPath
-	docker-compose exec --user=laradock workspace bash
-}
-
-function lararestart(){
-	cd $laradockPath
-	docker-compose restart
-}
-
-function larastop(){
-	cd $laradockPath
-	docker-compose stop
 }
