@@ -181,3 +181,45 @@ qt() {
     #     │└─ search all files under each directory, recursively
     #     └─ ignore case
 }
+
+
+mysql-container-id() {
+    echo $(docker ps -q --filter name=mysql)
+}
+
+mysql-create-db() {
+
+    if [ -z "$1" ]; then
+        printf "give a name for the db.\n"
+        return 1
+    fi
+
+    docker exec "$(mysql-container-id)" mysql -uroot -proot -e "CREATE SCHEMA $1 DEFAULT CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci"
+}
+
+mysql-import-db() {
+
+    file="${1}"
+    dbName="${2}"
+
+    if [ -z "$file" ]; then
+        printf "give a file.\n"
+        return 1
+    fi
+
+    if [ -z "$dbName" ]; then
+        printf "give a name for the db.\n"
+        return 1
+    fi
+
+    cat "${file}" | docker exec -i "$(mysql-container-id)" mysql -uroot -proot "${dbName}"
+}
+
+mysql-export-db() {
+    if [ -z "$1" ]; then
+        printf "give a name for the db.\n"
+        return 1
+    fi
+
+    docker exec "$(mysql-container-id)" mysqldump -uroot -proot "$1" > "$1".sql
+}
