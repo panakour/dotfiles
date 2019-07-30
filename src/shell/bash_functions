@@ -207,6 +207,11 @@ mysql-import-db() {
         return 1
     fi
 
+    if [ ! -f $file ]; then
+        printf "file: $file not found.\n"
+        return 1
+    fi
+
     if [ -z "$dbName" ]; then
         printf "give a name for the db.\n"
         return 1
