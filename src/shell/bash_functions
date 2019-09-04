@@ -197,6 +197,16 @@ mysql-create-db() {
     docker exec "$(mysql-container-id)" mysql -uroot -proot -e "CREATE SCHEMA $1 DEFAULT CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci"
 }
 
+mysql-drop-db() {
+
+    if [ -z "$1" ]; then
+        printf "give a name for the db.\n"
+        return 1
+    fi
+
+    docker exec "$(mysql-container-id)" mysql -uroot -proot -e "DROP DATABASE $1"
+}
+
 mysql-import-db() {
 
     file="${1}"
