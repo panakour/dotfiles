@@ -73,31 +73,3 @@ alias local-ip="ifconfig \
 
 alias remove="sudo apt-get purge --auto-remove"
 alias _copy="xclip -selection clipboard"
-
-function dockerstopall() {
-    docker stop $(docker ps -qa)
-}
-
-function phpup() {
-    execute "cd ~/Code/phpdock/ && make uplocal" \
-        "START PHPDOCK"
-}
-
-phpcontainer=phpdock_php-fpm
-
-function phpbash() {
-    docker exec --user=www-data -it "$(docker ps -q --filter ancestor=${phpcontainer})" sh
-}
-
-function nginxrestart() {
-    nginxcontainer=phpdock_nginx
-    docker restart "$(docker ps -q --filter ancestor=${nginxcontainer})"
-}
-
-function art(){
-   dirName="$1";
-   shift;
-   args="$*";
-   cmd=`echo php "${dirName}"/artisan "${args}"`
-   docker exec --user=www-data "$(docker ps -q --filter ancestor=${phpcontainer})" ${cmd}
-}

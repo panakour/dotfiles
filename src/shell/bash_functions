@@ -182,14 +182,45 @@ qt() {
     #     └─ ignore case
 }
 
+nginx-container-id() {
+    cat <<< "$(docker ps -q --filter name=nginx)"
+}
+
+php-container-id() {
+    cat <<< "$(docker ps -q --filter name=php-fpm)"
+}
 
 mysql-container-id() {
-    echo $(docker ps -q --filter name=mysql)
+    cat <<< "$(docker ps -q --filter name=mysql)"
+}
+
+function dockerstopall() {
+    docker stop "$(docker ps -qa)"
+}
+
+function phpup() {
+    execute "cd ~/Code/phpdock/ && make uplocal" \
+        "START PHPDOCK"
+}
+
+function phpbash() {
+    docker exec --user=www-data -it "$(php-container-id)" sh
+}
+
+function nginxrestart() {
+    docker restart "$(nginx-container-id)"
+}
+
+function art(){
+   dir="$1";
+   shift;
+   args="$*";
+   docker exec --user=www-data "$(php-container-id)" php "${dir}"/artisan "${args}"
 }
 
 mysql-create-db() {
 
-    if [ -z "$1" ]; then
+    if [[ -z "$1" ]]; then
         printf "give a name for the db.\n"
         return 1
     fi
@@ -199,7 +230,7 @@ mysql-create-db() {
 
 mysql-drop-db() {
 
-    if [ -z "$1" ]; then
+    if [[ -z "$1" ]]; then
         printf "give a name for the db.\n"
         return 1
     fi
@@ -212,26 +243,26 @@ mysql-import-db() {
     file="${1}"
     dbName="${2}"
 
-    if [ -z "$file" ]; then
+    if [[ -z "$file" ]]; then
         printf "give a file.\n"
         return 1
     fi
 
-    if [ ! -f $file ]; then
-        printf "file: $file not found.\n"
+    if [[ ! -f "$file" ]]; then
+        printf "file: %s not found.\n" "$file"
         return 1
     fi
 
-    if [ -z "$dbName" ]; then
+    if [[ -z "$dbName" ]]; then
         printf "give a name for the db.\n"
         return 1
     fi
 
-    cat "${file}" | docker exec -i "$(mysql-container-id)" mysql -uroot -proot "${dbName}"
+     docker exec -i "$(mysql-container-id)" mysql -uroot -proot "${dbName}" < "${file}"
 }
 
 mysql-export-db() {
-    if [ -z "$1" ]; then
+    if [[ -z "$1" ]]; then
         printf "give a name for the db.\n"
         return 1
     fi
