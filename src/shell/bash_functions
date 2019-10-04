@@ -225,7 +225,8 @@ mysql-create-db() {
         return 1
     fi
 
-    docker exec "$(mysql-container-id)" mysql -uroot -proot -e "CREATE SCHEMA $1 DEFAULT CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci"
+    execute "docker exec $(mysql-container-id) mysql -uroot -proot -e 'CREATE SCHEMA IF NOT EXISTS $1 DEFAULT CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci'" \
+            "create db"
 }
 
 mysql-drop-db() {
@@ -235,7 +236,8 @@ mysql-drop-db() {
         return 1
     fi
 
-    docker exec "$(mysql-container-id)" mysql -uroot -proot -e "DROP DATABASE $1"
+    execute "docker exec $(mysql-container-id) mysql -uroot -proot -e 'DROP DATABASE $1'" \
+      "drop db"
 }
 
 mysql-import-db() {
@@ -258,7 +260,10 @@ mysql-import-db() {
         return 1
     fi
 
-     docker exec -i "$(mysql-container-id)" mysql -uroot -proot "${dbName}" < "${file}"
+    mysql-create-db "${dbName}"
+
+    execute "docker exec -i $(mysql-container-id) mysql -uroot -proot ${dbName} < ${file}" \
+        "import db"
 }
 
 mysql-export-db() {
@@ -267,5 +272,6 @@ mysql-export-db() {
         return 1
     fi
 
-    docker exec "$(mysql-container-id)" mysqldump -uroot -proot "$1" > "$1".sql
+    execute "docker exec $(mysql-container-id) mysqldump -uroot -proot $1 > $1.sql" \
+         "export db"
 }
