@@ -7,7 +7,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 print_in_purple "\n   Autostart\n\n"
 
-mkdir -p $HOME/.config/autostart
+mkdir -p "$HOME"/.config/autostart
 
 find ./apps/ -type f -name '*.desktop' | awk -F/ '{print $NF}' | while read line; do
     execute \
