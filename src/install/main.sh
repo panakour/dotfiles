@@ -12,10 +12,10 @@ update
 upgrade
 
 ./build-essentials.sh
+./git.sh
 ./browsers.sh
 ./nvm.sh
 #./compression_tools.sh
-./git.sh
 ./image_tools.sh
 ./misc.sh
 ./misc_tools.sh
