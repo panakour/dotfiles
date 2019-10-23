@@ -1,4 +1,4 @@
-<keymap version="1" name="Default copy" parent="Default for XWin">
+<keymap version="1" name="Default copy" parent="Default for GNOME">
   <action id="$LRU">
     <keyboard-shortcut first-keystroke="shift ctrl alt e" />
   </action>
