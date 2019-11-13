@@ -30,7 +30,6 @@ if has("unnamedplus")          " │ as the default register.
     set clipboard+=unnamedplus " │
 endif                          " ┘
 
-set colorcolumn=73             " Highlight certain column(s).
 set cursorline                 " Highlight the current line.
 set directory=~/.vim/swaps     " Set directory for swap files.
 set encoding=utf-8 nobomb      " Use UTF-8 without BOM.
@@ -139,7 +138,6 @@ function! InitPlugins() abort
     call minpac#add('tpope/vim-commentary')
     call minpac#add('tpope/vim-fugitive')
     call minpac#add('tpope/vim-surround')
-    call minpac#add('terryma/vim-multiple-cursors')
     call minpac#add('scrooloose/nerdtree')
 
 endfunction
@@ -152,23 +150,6 @@ command! PluginsClean   call InitPlugins() | call minpac#clean()
 command! PluginsSetup   call InitPlugins() | call minpac#update('', {'do': 'quit'})
 command! PluginsStatus  call InitPlugins() | call minpac#status()
 command! PluginsUpdate  call InitPlugins() | call minpac#update('', {'do': 'call minpac#status()'})
-
-
-" ----------------------------------------------------------------------
-" | Plugins - multiple selections                                      |
-" ----------------------------------------------------------------------
-
-" key bindings
-" https://github.com/terryma/vim-multiple-cursors#mapping
-execute "set <A-n>=\en"
-
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_word_key      = '<A-n>'
-let g:multi_cursor_start_key           = 'g<A-n>'
-let g:multi_cursor_next_key            = '<A-n>'
-let g:multi_cursor_prev_key            = '<A-p>'
-let g:multi_cursor_skip_key            = '<A-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
 
 
 " ----------------------------------------------------------------------
