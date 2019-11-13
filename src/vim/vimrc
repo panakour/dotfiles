@@ -30,7 +30,6 @@ if has("unnamedplus")          " │ as the default register.
     set clipboard+=unnamedplus " │
 endif                          " ┘
 
-set colorcolumn=73             " Highlight certain column(s).
 set cursorline                 " Highlight the current line.
 set directory=~/.vim/swaps     " Set directory for swap files.
 set encoding=utf-8 nobomb      " Use UTF-8 without BOM.
