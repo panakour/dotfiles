@@ -32,6 +32,8 @@ create_symlinks() {
 
         "conky/conkyrc"
 
+        "phpstorm/ideavimrc"
+
     )
 
     local i=""
