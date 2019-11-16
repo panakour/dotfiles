@@ -39,6 +39,7 @@ nnoremap <leader>gt :action GotoTest<CR>
 nnoremap <leader>gr :action GotoRelated<CR>
 nnoremap <leader>gb :action Annotate<CR>
 nnoremap <leader>rp :action ManageRecentProjects<CR>
+nnoremap <leader>rr :action RecentFiles<CR>
 nnoremap <leader>tl Vy<CR>:action ActivateTerminalToolWindow<CR>
 vnoremap <leader>tl y<CR>:action ActivateTerminalToolWindow<CR>
 nnoremap ]e :action GotoNextError<CR>
