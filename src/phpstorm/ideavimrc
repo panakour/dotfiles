@@ -23,6 +23,7 @@ nnoremap <leader>br :action ViewBreakpoints<CR>
 nnoremap <leader>ic :action InspectCode<CR>
 nnoremap <leader>oi :action OptimizeImports<CR>
 nnoremap <leader>re :action RenameElement<CR>
+nnoremap <leader>ra :action Refactorings.QuickListPopupAction<CR>
 nnoremap <leader>rf :action RenameFile<CR>
 nnoremap <leader>gq :action ReformatCode<CR>
 nnoremap <leader>mv :action ActivateMavenProjectsToolWindow<CR>
@@ -39,6 +40,7 @@ nnoremap <leader>gt :action GotoTest<CR>
 nnoremap <leader>gr :action GotoRelated<CR>
 nnoremap <leader>gb :action Annotate<CR>
 nnoremap <leader>rp :action ManageRecentProjects<CR>
+nnoremap <leader>fs :action FileStructurePopup<CR>
 nnoremap <leader>rr :action RecentFiles<CR>
 nnoremap <leader>tl Vy<CR>:action ActivateTerminalToolWindow<CR>
 vnoremap <leader>tl y<CR>:action ActivateTerminalToolWindow<CR>
