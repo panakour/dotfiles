@@ -6,7 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 install_vim() {
-    install_package "GNOME Vim" "vim-gnome"
+    install_package "Vim" "vim"
 }
 
 install_plugins() {

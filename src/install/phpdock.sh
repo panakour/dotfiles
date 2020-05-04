@@ -16,7 +16,7 @@ download_phpdock() {
 }
 
 prepare() {
-    execute "cp $PHPDOCK_DIRECTORY/.env-example $PHPDOCK_DIRECTORY/.env && \
+    execute "cp $PHPDOCK_DIRECTORY/.env.example $PHPDOCK_DIRECTORY/.env && \
         docker-compose -f docker-compose.yml -f docker-compose.local.yml up --no-start" \
         "Prepare phpdock"
 }
