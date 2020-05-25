@@ -25,5 +25,6 @@ upgrade
 ./docker.sh
 ./phpdock.sh
 ./golang.sh
+./flutter.sh
 
 ./cleanup.sh
