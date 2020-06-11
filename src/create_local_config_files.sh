@@ -13,7 +13,10 @@ create_bash_local() {
 
     if [ ! -e "$FILE_PATH" ] || [ -z "$FILE_PATH" ]; then
         printf "%s\n\n" "#!/bin/bash" >> "$FILE_PATH"
+        printf "%s\n" "export PATH=\$PATH:\$HOME/bin" >> "$FILE_PATH"
     fi
+
+    mkd "$HOME/bin"
 
     print_result $? "$FILE_PATH"
 
