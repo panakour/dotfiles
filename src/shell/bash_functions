@@ -191,7 +191,7 @@ php-container-id() {
 }
 
 mysql-container-id() {
-    cat <<< "$(docker ps -q --filter name=mysql)"
+    cat <<< "$(docker ps -q --filter name=mysql -n 1)"
 }
 
 function dockerstopall() {
