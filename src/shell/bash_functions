@@ -183,15 +183,15 @@ qt() {
 }
 
 nginx-container-id() {
-    cat <<< "$(docker ps -q --filter name=nginx)"
+    cat <<< "$(docker ps -q --filter status=running --filter name=nginx -n 1)"
 }
 
 php-container-id() {
-    cat <<< "$(docker ps -q --filter name=php-fpm)"
+    cat <<< "$(docker ps -q --filter status=running --filter name=php-fpm -n 1)"
 }
 
 mysql-container-id() {
-    cat <<< "$(docker ps -q --filter name=mysql -n 1)"
+    cat <<< "$(docker ps -q --filter status=running --filter name=mysql -n 1)"
 }
 
 function dockerstopall() {
