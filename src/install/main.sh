@@ -26,5 +26,6 @@ upgrade
 ./phpdock.sh
 ./golang.sh
 ./flutter.sh
+./tmuxinator.sh
 
 ./cleanup.sh
