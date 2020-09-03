@@ -19,6 +19,7 @@ upgrade
 ./image_tools.sh
 ./misc.sh
 ./misc_tools.sh
+./mysql-workbench.sh
 ./npm.sh
 ./tmux.sh
 ./vim.sh
