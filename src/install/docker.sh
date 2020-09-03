@@ -26,10 +26,6 @@ installDocker() {
         "Verify key"
 
     execute \
-        "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -" \
-        "Add Docker’s official GPG key"
-
-    execute \
         "sudo add-apt-repository \
           'deb [arch=amd64] https://download.docker.com/linux/ubuntu \
            $(lsb_release -cs) \
