@@ -1,27 +1,27 @@
 #!/bin/bash
 
 cd "$(dirname "${BASH_SOURCE[0]}")" &&
-    . "../utils.sh"
+    . "../utils.sh" &&
+    . "./utils.sh"
 
 declare -r LOCAL_SHELL_CONFIG_FILE="$HOME/.bash.local"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Flutter\n\n"
+print_in_purple "\n   Android\n\n"
 
-declare -r FLUTTER_DIRECTORY="$HOME/Code/flutter"
-declare -r FLUTTER_BIN_DIRECTORY="$FLUTTER_DIRECTORY/bin"
+declare -r ANDROID_HOME="$HOME/Android/Sdk"
 
-download_flutter() {
-    execute "git clone https://github.com/flutter/flutter.git $FLUTTER_DIRECTORY -b stable --depth 1" \
-        "Download"
-    execute "$FLUTTER_BIN_DIRECTORY/flutter precache" \
-        "Pre-download development binaries"
+install() {
+    install_package_via_snap "Android Studio" "android-studio" "--classic"
 }
 
 add_to_path() {
     declare -r -a FILES_TO_PATH=(
-        "$FLUTTER_BIN_DIRECTORY"
+        "$ANDROID_HOME/emulator"
+        "$ANDROID_HOME/tools"
+        "$ANDROID_HOME/tools/bin"
+        "$ANDROID_HOME/platform-tools"
     )
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,10 +36,8 @@ add_to_path() {
 }
 
 main() {
-    if [ ! -d "$FLUTTER_DIRECTORY" ]; then
-        download_flutter
-        add_to_path
-    fi
+    install
+    add_to_path
 }
 
 main

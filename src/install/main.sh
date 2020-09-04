@@ -26,6 +26,7 @@ upgrade
 ./docker.sh
 ./phpdock.sh
 ./golang.sh
+./android.sh
 ./flutter.sh
 ./tmuxinator.sh
 
