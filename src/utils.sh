@@ -336,7 +336,7 @@ show_spinner() {
 
         sleep 0.2
 
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         # Clear frame text.
 
@@ -348,4 +348,8 @@ show_spinner() {
 
     done
 
+}
+
+latestReleaseOfRepo() {
+  git ls-remote --refs --sort="version:refname" --tags "$1" | cut -d/ -f3-|tail -n1
 }
