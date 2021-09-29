@@ -1,4 +1,5 @@
 conky.config = {
+    lua_load = '~/Code/dotfiles/src/conky/conky.lua',
 
 	update_interval = 1,
 	cpu_avg_samples = 2,
@@ -30,7 +31,7 @@ conky.config = {
 	uppercase = false,
 	default_color = 'white',
 	own_window_colour = '#000000',
-	minimum_width = 300, minimum_height = 0,
+	minimum_width = 400, minimum_height = 0,
 	alignment = 'top_right',
 
 };
@@ -48,14 +49,13 @@ Processes: $alignr ${execi 1000 ps aux | wc -l}
 Distribution: $alignr ${execi 999999 lsb_release -ds}
 
 ${font sans-serif:bold:size=10}CPU ${hr 2}
-${font sans-serif:normal:size=8}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}
-${font sans-serif:normal:size=8}${cpugraph cpu1}
-CPU: ${cpu cpu1}% ${cpubar cpu1}
+${font sans-serif:normal:size=8}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'} ${alignr} ${freq}MHz
+${font sans-serif:normal:size=8}${cpugraph cpu}
+CPU: ${cpu cpu}% ${cpubar cpu}
 Temp: ${hwmon 0 temp 1}°C
 Temp: ${hwmon 1 temp 1}°C
-Temp: ${hwmon 2 temp 1}°C
 Temp: ${hwmon 3 temp 1}°C
-
+${lua_parse conky_listcpus}
 
 ${font sans-serif:bold:size=10}MEMORY ${hr 2}
 ${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
@@ -70,8 +70,8 @@ ${fs_bar /}
 ${font Ubuntu:bold:size=10}NETWORK ${hr 2}
 ${font sans-serif:normal:size=8}Local IPs:${alignr}External IP:
 ${execi 1000 ip a | grep inet | grep -vw lo | grep -v inet6 | cut -d \/ -f1 | sed 's/[^0-9\.]*//g'}  ${alignr}${execi 1000  wget -q -O- http://ipecho.net/plain; echo}
-${font sans-serif:normal:size=8}Down: ${downspeed eno1}  ${alignr}Up: ${upspeed eno1}
-${color lightgray}${downspeedgraph eno1 80,130 } ${alignr}${upspeedgraph eno1 80,130 }$color
+${font sans-serif:normal:size=8}Down: ${downspeed enp4s0}  ${alignr}Up: ${upspeed enp4s0}
+${color lightgray}${downspeedgraph enp4s0 80,130 } ${alignr}${upspeedgraph enp4s0 80,130 }$color
 ${font sans-serif:bold:size=10}TOP PROCESSES ${hr 2}
 ${font sans-serif:normal:size=8}Name $alignr PID   CPU%   MEM%${font sans-serif:normal:size=8}
 ${top name 1} $alignr ${top pid 1} ${top cpu 1}% ${top mem 1}%
