@@ -49,13 +49,12 @@ Processes: $alignr ${execi 1000 ps aux | wc -l}
 Distribution: $alignr ${execi 999999 lsb_release -ds}
 
 ${font sans-serif:bold:size=10}CPU ${hr 2}
-${font sans-serif:normal:size=8}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'} ${alignr} ${freq}MHz
+${font sans-serif:normal:size=8}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'} ${alignr} ${freq}MHz Temp: ${hwmon 2 temp 1}°C
 ${font sans-serif:normal:size=8}${cpugraph cpu}
 CPU: ${cpu cpu}% ${cpubar cpu}
-Temp: ${hwmon 0 temp 1}°C
-Temp: ${hwmon 1 temp 1}°C
-Temp: ${hwmon 3 temp 1}°C
 ${lua_parse conky_listcpus}
+
+Temp: ${hwmon 0 temp 1}°C | ${hwmon 0 temp 2}°C | ${hwmon 0 temp 3}°C | ${hwmon 1 temp 1}°C
 
 ${font sans-serif:bold:size=10}MEMORY ${hr 2}
 ${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
