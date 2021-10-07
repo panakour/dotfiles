@@ -350,6 +350,10 @@ show_spinner() {
 
 }
 
-latestReleaseOfRepo() {
-  git ls-remote --refs --sort="version:refname" --tags "$1" | cut -d/ -f3-|tail -n1
+repo_latest_release() {
+    git ls-remote --refs --sort="version:refname" --tags "$1" | cut -d/ -f3- | tail -n1
+}
+
+github_latest_release() {
+    curl --silent "https://api.github.com/repos/$1/releases/latest" | jq -r ".tag_name"
 }
