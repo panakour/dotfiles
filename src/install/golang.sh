@@ -21,8 +21,8 @@ add_path() {
 
     declare -r CONFIGS2="export PATH=\$PATH:$(go env GOPATH)/bin"
 
-    if ! grep -q "CONFIGS2" "$LOCAL_SHELL_CONFIG_FILE"; then
-        execute "printf '%s' 'CONFIGS2' >> $LOCAL_SHELL_CONFIG_FILE" \
+    if ! grep -q "$CONFIGS2" "$LOCAL_SHELL_CONFIG_FILE"; then
+        execute "printf '\n%s\n' '$CONFIGS2' >> $LOCAL_SHELL_CONFIG_FILE" \
             "go bin dir to PATH"
     fi
 
