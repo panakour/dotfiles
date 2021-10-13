@@ -53,9 +53,6 @@ ${font sans-serif:normal:size=8}${execi 1000 grep model /proc/cpuinfo | cut -d :
 ${font sans-serif:normal:size=8}${cpugraph cpu}
 CPU: ${cpu cpu}% ${cpubar cpu}
 ${lua_parse conky_listcpus}
-
-Temp: ${hwmon 0 temp 1}°C | ${hwmon 0 temp 2}°C | ${hwmon 0 temp 3}°C | ${hwmon 1 temp 1}°C
-
 ${font sans-serif:bold:size=10}MEMORY ${hr 2}
 ${font sans-serif:normal:size=8}RAM $alignc $mem / $memmax $alignr $memperc%
 $membar
@@ -83,4 +80,6 @@ ${top name 7} $alignr ${top pid 7} ${top cpu 7}% ${top mem 7}%
 ${top name 8} $alignr ${top pid 8} ${top cpu 8}% ${top mem 8}%
 ${top name 9} $alignr ${top pid 9} ${top cpu 9}% ${top mem 9}%
 ${top name 10} $alignr ${top pid 10} ${top cpu 10}% ${top mem 10}%
+
+Other Temp: ${hwmon 0 temp 1}°C | ${hwmon 0 temp 2}°C | ${hwmon 0 temp 3}°C | ${hwmon 1 temp 1}°C
 ]];
