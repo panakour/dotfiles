@@ -13,9 +13,9 @@ enable_color_support() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Load color support.
+    # Load OS specific color support.
 
-    . "colors/bash_colors"
+    . "$OS/bash_colors"
 
 }
 
@@ -87,7 +87,8 @@ get_git_repository_details() {
 
     branchName="$( printf "%s" "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
         || git rev-parse --short HEAD 2> /dev/null \
-        || printf " (unknown)" )" | tr -d "\n" )"
+        || printf " (unknown)" )" | \
+        tr -d "\n" )"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

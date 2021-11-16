@@ -8,7 +8,7 @@ source_bash_files() {
 
     declare -r -a FILES_TO_SOURCE=(
         "bash_aliases"
-        "bash_autocomplete"
+        "bash_autocompletion"
         "bash_exports"
         "bash_functions"
         "bash_options"
@@ -23,7 +23,10 @@ source_bash_files() {
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     cd "$(dirname "$(readlink "${BASH_SOURCE[0]}")")" \
-        && . "../utils.sh"
+        && . "../os/utils.sh"
+
+    # shellcheck disable=SC2034
+    declare -r OS="$(get_os)"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
