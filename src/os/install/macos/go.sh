@@ -6,8 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   tmux\n\n"
+print_in_purple "\n   Golang\n\n"
 
-brew_install "tmux" "tmux"
-brew_install "tmux (pasteboard)" "reattach-to-user-namespace"
-brew_install "tmuxinator" "tmuxinator"
+brew_install "Golang" "go"
+brew_install "GoLand" "goland" "--cask"

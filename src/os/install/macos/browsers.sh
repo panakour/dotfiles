@@ -26,10 +26,5 @@ brew_install "Firefox Nightly" "firefox-nightly" "--cask" "homebrew/cask-version
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# `Safari Technology Preview` requires macOS 10.11.4 or la
-# https://github.com/alrra/dotfiles/issues
-
-if is_supported_version "$(get_os_version)" "10.11.4"; then
-    printf "\n"
-    brew_install "Safari Technology Preview" "safari-technology-preview" "--cask" "homebrew/cask-versions"
-fi
+# Safari Technology Preview
+brew_install "Safari Technology Preview" "safari-technology-preview" "--cask" "homebrew/cask-versions"
