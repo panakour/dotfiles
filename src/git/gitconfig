@@ -1,38 +1,28 @@
 [alias]
 
-    a   = commit --amend
-    br  = branch
-    c   = commit
-    ca  = !git add -A && git commit             # Commit all changes.
-    co  = checkout
-    cp  = cherry-pick
-    d   = diff -- . ':!*composer.lock' ':!*package-lock.json' ':!*yarn.lock'
-    dc  = diff --cached -- . ':!*composer.lock' ':!*package-lock.json' ':!*yarn.lock'
-    f   = fetch
-    g   = log --graph --pretty=custom           # Show custom graph.
-    git = !exec git                             # Allow `$ git git git...`
-    l   = log --pretty=custom                   # Show custom log.
-    lc  = shortlog --email --numbered --summary # List contributors.
-    p   = push
-    r   = rebase
-    s   = status
-    w   = instaweb --httpd=webrick              # Start web-based visualizer.
+    a = add
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Find commits by source code.
-
-    cc = "!f() { \
-        git log --pretty=custom --decorate --date=short -S\"$1\"; \
-    }; f"
+    b = branch
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    # Find commits by commit message.
+    c = commit
 
-    cm = "!f() { \
-        git log --pretty=custom --decorate --date=short --grep=\"$1\"; \
-    }; f"
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Commit all changes.
+
+    ca = !git add --all && git commit
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    co = checkout
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    cp = cherry-pick
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -40,7 +30,7 @@
 
     credit = "!f() { \
         if [ -n \"$1\" ] && [ -n \"$2\" ]; then \
-            git commit --amend --author \"$1 <$2>\" -C HEAD; \
+            git commit --amend --author \"$1 <$2>\" --no-edit --reuse-message=HEAD; \
         fi \
     }; f"
 
@@ -59,11 +49,47 @@
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    d = diff -- . ':!*package-lock.json' ':!*yarn.lock'
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    dc = diff --cached -- . ':!*package-lock.json' ':!*yarn.lock'
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    f = fetch
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Show custom text-based graphical log of the commit history.
+
+    g = log --graph --pretty=custom
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Allow `$ git git git...`
+
+    git = !exec git
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Show custom log of the commit history.
+
+    l = log --pretty=custom
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # List contributors.
+
+    lc = shortlog --email --numbered --summary
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     # List remote branches.
 
     lrb = "!f() { \
-        remote="${1:-origin}"; \
-        git ls-remote --heads "$remote"; \
+        remote=\"${1:-origin}\"; \
+        git ls-remote --heads \"$remote\"; \
     }; f"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -72,18 +98,27 @@
     # if a branch name is specified, on top of the specified branch.
 
     mpr = "!f() { \
-        declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
-        declare branch=\"${2:-$currentBranch}\"; \
+        current_branch=\"$(git symbolic-ref --short HEAD)\"; \
+        branch=\"${2:-$current_branch}\"; \
+        \
         if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
             git fetch origin refs/pull/$1/head:pr/$1 && \
-            git checkout -B $branch && \
-            git rebase $branch pr/$1 && \
-            git checkout -B $branch && \
+            git checkout -B \"$branch\" && \
+            git rebase \"$branch\" pr/$1 && \
+            git checkout -B \"$branch\" && \
             git merge pr/$1 && \
-            git branch -D pr/$1 && \
-            git commit --amend -m \"$(git log -1 --pretty=%B)\n\nClose #$1\"; \
+            git branch --delete --force pr/$1 && \
+            git commit --amend --message=\"$(git log -1 --pretty=%B)\n\nClose: #$1\"; \
         fi \
     }; f"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    p = push
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    r = rebase
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -91,8 +126,8 @@
     # exists and tag the latest commit with that name.
 
     retag = "!f() { \
-        git tag -d "$1" &> /dev/null; \
-        git tag $1; \
+        git tag --delete \"$1\" &> /dev/null; \
+        git tag \"$1\"; \
     }; f"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,19 +135,70 @@
     # Remove last commits (by default it removes the last commit).
 
     rlc = "!f() { \
-        declare n=\"${1:-1}\"; \
-        git reset --hard \"HEAD~$n\"; \
+        number_of_commits=\"${1:-1}\"; \
+        git reset --hard \"HEAD~$number_of_commits\"; \
     }; f"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    s = status
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Search commits by source code.
+
+    sc = "!f() { \
+        git log --date=short --decorate --pretty=custom -S\"$1\"; \
+    }; f"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Seach commits by commit message.
+
+    sm = "!f() { \
+        git log --date=short --decorate --pretty=custom --grep=\"$1\"; \
+    }; f"
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Update the content of the last commit by including all
+    # staged changes.
+    #
+    # Note: "Update" is used loosely. Git doesn't actually
+    # update the last commit, but instead, creates a new commit
+    # based on the last commit and replaces it.
+
+    u = commit --amend --no-edit
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Update the content of the last commit by including all
+    # local changes.
+
+    ua = !git add --all && git commit --amend --no-edit
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     # Undo last commits (by default it undoes the last commit).
 
     ulc = "!f() { \
-        declare n=\"${1:-1}\"; \
-        git reset --soft \"HEAD~$n\"; \
+        number_of_commits=\"${1:-1}\"; \
+        git reset --soft \"HEAD~$number_of_commits\"; \
     }; f"
 
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Update the content of the last commit by including all
+    # staged changes as well as allow the user to change its
+    # commit message.
+
+    um = commit --amend
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Start web-based visualizer.
+
+    w = instaweb --httpd=webrick
 
 [color "branch"]
 
@@ -140,10 +226,10 @@
 [core]
 
     abbrev = 12
-    attributesfile = ~/.gitattributes
+    attributesFile = ~/.gitattributes
     autocrlf = input
     editor = vim
-    excludesfile = ~/.gitignore
+    excludesFile = ~/.gitignore
 
 [diff]
 
@@ -158,7 +244,18 @@
 
     # Use `hexdump` to diff binary files.
 
-    textconv = hexdump -v -C
+    textconv = hexdump --canonical --no-squeezing
+
+[help]
+
+    # If a command is mistyped, make Git automatically
+    # run the command it thinks the user wanted to type.
+
+    autoCorrect = immediate
+
+[init]
+
+    defaultBranch = main
 
 [pretty]
 
