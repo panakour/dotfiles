@@ -11,4 +11,5 @@ print_in_purple "\n • Preferences\n"
 ./ui_and_ux.sh
 ./region_and_language.sh
 ./dock.sh
+./keybindings.sh
 ./autostart/main.sh
