@@ -79,7 +79,7 @@ download_dotfiles() {
         while [ -e "$dotfilesDirectory" ]; do
             ask_for_confirmation "'$dotfilesDirectory' already exists, do you want to overwrite it?"
             if answer_is_yes; then
-                rm --force --recursive "$dotfilesDirectory"
+                rm -rf "$dotfilesDirectory"
                 break
             else
                 dotfilesDirectory=""
@@ -94,11 +94,11 @@ download_dotfiles() {
 
     else
 
-        rm --force --recursive "$dotfilesDirectory" &> /dev/null
+        rm -rf "$dotfilesDirectory" &> /dev/null
 
     fi
 
-    mkdir --parents "$dotfilesDirectory"
+    mkdir -p "$dotfilesDirectory"
     print_result $? "Create '$dotfilesDirectory'" "true"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -110,7 +110,7 @@ download_dotfiles() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    rm --force --recursive "$tmpFile"
+    rm -rf "$tmpFile"
     print_result $? "Remove archive"
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -128,7 +128,7 @@ download_utils() {
 
     download "$DOTFILES_UTILS_URL" "$tmpFile" \
         && . "$tmpFile" \
-        && rm --force --recursive "$tmpFile" \
+        && rm -rf "$tmpFile" \
         && return 0
 
    return 1
