@@ -33,6 +33,8 @@ nnoremap <leader>run :action Run<CR>
 nnoremap <leader>rc :action ChooseRunConfiguration<CR>
 nnoremap <leader>q  :action CloseActiveTab<CR>
 nnoremap <leader>ga :action GotoAction<CR>
+nnoremap <leader>gf :action GotoFile<CR>
+nnoremap <leader>gc :action GotoClass<CR>
 nnoremap <leader>gi :action GotoImplementation<CR>
 nnoremap <leader>gs :action GotoSuperMethod<CR>
 nnoremap <leader>gd :action GotoDeclaration<CR>
