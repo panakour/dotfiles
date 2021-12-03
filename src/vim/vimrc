@@ -217,6 +217,7 @@ function! InitPlugins() abort
     call minpac#add('tpope/vim-surround')
     call minpac#add('tpope/vim-unimpaired')
     call minpac#add('wellle/targets.vim')
+    call minpac#add('mg979/vim-visual-multi')
 
 endfunction
 
