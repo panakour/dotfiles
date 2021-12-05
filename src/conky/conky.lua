@@ -5,7 +5,7 @@ listcpus = numcpus .. "threads:\n"
 local position = 0
 for i = 1, numcpus
 do
-    position = position + 55
+    position = position + 90
     if i % 8 == 0 then
         position = 0
     end
