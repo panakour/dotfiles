@@ -1,4 +1,4 @@
-let mapleader = ','
+let mapleader = ' '
 
 set number
 set incsearch hlsearch
@@ -38,7 +38,7 @@ nnoremap <leader>ga :action GotoAction<CR>
 nnoremap <leader>gf :action GotoFile<CR>
 nnoremap <leader>gc :action GotoClass<CR>
 nnoremap <leader>gi :action GotoImplementation<CR>
-nnoremap <leader>gs :action GotoSuperMethod<CR>
+nnoremap <leader>gs :action GotoSymbol<CR>
 nnoremap <leader>gd :action GotoDeclaration<CR>
 nnoremap <leader>gt :action GotoTest<CR>
 nnoremap <leader>gr :action GotoRelated<CR>
@@ -51,6 +51,7 @@ nnoremap <leader>ca :action CheckinProject<CR>
 nnoremap <leader>cp :action Vcs.Push<CR>
 nnoremap <leader>ot Vy<CR>:action ActivateTerminalToolWindow<CR>
 vnoremap <leader>ot y<CR>:action ActivateTerminalToolWindow<CR>
+nnoremap <leader>iv :action IntroduceVariable<CR>
 nnoremap ]e :action GotoNextError<CR>
 nnoremap [e :action GotoPreviousError<CR>
 
