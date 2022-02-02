@@ -15,40 +15,39 @@ nnoremap <leader>vs :source ~/.ideavimrc<CR>
 
 nnoremap gcc :action CommentByLineComment<CR>
 
+" navigate
 nnoremap <leader><leader> :action SearchEverywhere<CR>
-nnoremap <leader>ff :action FindInPath<CR>
-nnoremap <leader>fu :action FindUsages<CR>
+nnoremap <leader>st :action FindInPath<CR>
+nnoremap <leader>u :action FindUsages<CR>
+nnoremap <leader>f :action GotoFile<CR>
+nnoremap <leader>t :action GotoClass<CR>
 nnoremap <leader>su :action ShowUsages<CR>
-nnoremap <leader>cv :action ChangeView<CR>
-nnoremap <leader>bb :action ToggleLineBreakpoint<CR>
-nnoremap <leader>br :action ViewBreakpoints<CR>
-nnoremap <leader>ic :action InspectCode<CR>
-nnoremap <leader>oi :action OptimizeImports<CR>
-nnoremap <leader>re :action RenameElement<CR>
-nnoremap <leader>ra :action Refactorings.QuickListPopupAction<CR>
-nnoremap <leader>rf :action RenameFile<CR>
-nnoremap <leader>gq :action ReformatCode<CR>
-nnoremap <leader>mv :action ActivateMavenProjectsToolWindow<CR>
-nnoremap <leader>dd :action Debug<CR>
-nnoremap <leader>dc :action ChooseDebugConfiguration<CR>
-nnoremap <leader>run :action Run<CR>
-nnoremap <leader>rc :action ChooseRunConfiguration<CR>
-nnoremap <leader>q  :action CloseActiveTab<CR>
+
 nnoremap <leader>ga :action GotoAction<CR>
-nnoremap <leader>gf :action GotoFile<CR>
-nnoremap <leader>gc :action GotoClass<CR>
 nnoremap <leader>gi :action GotoImplementation<CR>
 nnoremap <leader>gs :action GotoSymbol<CR>
 nnoremap <leader>gd :action GotoDeclaration<CR>
 nnoremap <leader>gt :action GotoTest<CR>
 nnoremap <leader>gr :action GotoRelated<CR>
-nnoremap <leader>gb :action Annotate<CR>
-nnoremap <leader>rp :action ManageRecentProjects<CR>
-nnoremap <leader>fs :action FileStructurePopup<CR>
-nnoremap <leader>rr :action RecentFiles<CR>
-nnoremap <leader>cc :action EditorCompleteStatement<CR>
-nnoremap <leader>ca :action CheckinProject<CR>
-nnoremap <leader>cp :action Vcs.Push<CR>
+nnoremap <leader>e :action ManageRecentProjects<CR>
+
+" other actions
+nnoremap <leader>tb :action ToggleLineBreakpoint<CR>
+nnoremap <leader>vb :action ViewBreakpoints<CR>
+nnoremap <leader>ic :action InspectCode<CR>
+nnoremap <leader>oi :action OptimizeImports<CR>
+nnoremap <leader>re :action RenameElement<CR>
+nnoremap <leader>ra :action Refactorings.QuickListPopupAction<CR>
+nnoremap <leader>rf :action RenameFile<CR>
+nnoremap <leader>rc :action ReformatCode<CR>
+nnoremap <leader>run :action Run<CR>
+nnoremap <leader>rd :action Debug<CR>
+nnoremap <leader>dc :action ChooseDebugConfiguration<CR>
+nnoremap <leader>rc :action ChooseRunConfiguration<CR>
+nnoremap <leader>q  :action CloseActiveTab<CR>
+nnoremap <leader>gg :action EditorCompleteStatement<CR>
+nnoremap <leader>ga :action CheckinProject<CR>
+nnoremap <leader>gp :action Vcs.Push<CR>
 nnoremap <leader>ot Vy<CR>:action ActivateTerminalToolWindow<CR>
 vnoremap <leader>ot y<CR>:action ActivateTerminalToolWindow<CR>
 nnoremap <leader>iv :action IntroduceVariable<CR>
@@ -68,3 +67,8 @@ nmap <S-C-n> <Plug>AllWholeOccurrences
 xmap <S-C-n> <Plug>AllWholeOccurrences
 nmap g<S-C-n> <Plug>AllOccurrences
 xmap g<S-C-n> <Plug>AllOccurrences
+
+map <C-N>  <A-N>
+map <C-P>  <A-P>
+map <C-X>  <A-X>
+map g<C-N> g<A-N>
