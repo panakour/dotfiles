@@ -32,7 +32,7 @@ nnoremap <leader>gr :action GotoRelated<CR>
 nnoremap <leader>e :action ManageRecentProjects<CR>
 
 " other actions
-nnoremap <leader>tb :action ToggleLineBreakpoint<CR>
+nnoremap <leader>lb :action ToggleLineBreakpoint<CR>
 nnoremap <leader>vb :action ViewBreakpoints<CR>
 nnoremap <leader>ic :action InspectCode<CR>
 nnoremap <leader>oi :action OptimizeImports<CR>
