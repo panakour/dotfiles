@@ -205,7 +205,7 @@ php-container-id() {
 }
 
 mysql-container-id() {
-    cat <<< "$(docker ps -q --filter status=running --filter name=mysql -n 1)"
+    cat <<< "$(docker ps -q --filter status=running --filter name=mysql --filter name=mariadb -n 1)"
 }
 
 function dockerstopall() {
