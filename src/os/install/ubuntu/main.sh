@@ -28,5 +28,6 @@ upgrade
 ./android.sh
 ./flutter.sh
 ./tmuxinator.sh
+./k8s.sh
 
 ./cleanup.sh
