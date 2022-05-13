@@ -23,7 +23,7 @@ upgrade
 ./tmux.sh
 ./../vim.sh
 ./docker.sh
-#./phpdock.sh
+./phpdock.sh
 #./golang.sh
 ./android.sh
 ./flutter.sh
