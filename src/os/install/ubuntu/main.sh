@@ -17,9 +17,8 @@ upgrade
 ./../nvm.sh
 #./compression_tools.sh
 ./image_tools.sh
-#./misc.sh
+./misc.sh
 ./misc_tools.sh
-./mysql-workbench.sh
 ./../npm.sh
 ./tmux.sh
 ./../vim.sh
