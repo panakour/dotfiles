@@ -23,5 +23,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./video_tools.sh
 ./../vim.sh
 ./go.sh
+./k8s.sh
 ./vscode.sh
 ./web_font_tools.sh
