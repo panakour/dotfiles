@@ -25,4 +25,5 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./go.sh
 ./k8s.sh
 ./vscode.sh
+./android.sh
 ./web_font_tools.sh
