@@ -201,7 +201,13 @@ nginx-container-id() {
 }
 
 php-container-id() {
-    cat <<< "$(docker ps -q --filter status=running --filter name=php-fpm -n 1)"
+    containerName="${1}"
+
+    if [[ -z "$1" ]]; then
+        containerName=php-fpm
+    fi
+
+    cat <<< "$(docker ps -q --filter status=running --filter name=${containerName} -n 1)"
 }
 
 mysql-container-id() {
@@ -218,7 +224,7 @@ function phpup() {
 }
 
 function phpbash() {
-    docker exec --user=www-data -it "$(php-container-id)" sh
+    docker exec --user=www-data -it "$(php-container-id "$@")" sh
 }
 
 function nginxrestart() {
@@ -229,7 +235,7 @@ function art(){
    dir="$1";
    shift;
    args="$*";
-   docker exec --user=www-data "$(php-container-id)" php "${dir}"/artisan "${args}"
+   docker exec --user=www-data "$(php-container-id "$@")" php "${dir}"/artisan "${args}"
 }
 
 mysql-create-db() {
@@ -276,7 +282,7 @@ mysql-import-db() {
 
     mysql-create-db "${dbName}"
 
-    execute "docker exec -i $(mysql-container-id) mysql -uroot -proot ${dbName} < ${file}" \
+    execute "docker exec -i $(mysql-container-id) mysql -uroot -proot -f ${dbName} < ${file}" \
         "import db"
 }
 
