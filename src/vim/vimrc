@@ -194,7 +194,7 @@ function! InitPlugins() abort
     call minpac#add('godlygeek/tabular')
     call minpac#add('isRuslan/vim-es6')
     call minpac#add('jelera/vim-javascript-syntax')
-    call minpac#add('kien/ctrlp.vim')
+    call minpac#add('ctrlpvim/ctrlp.vim')
     call minpac#add('marijnh/tern_for_vim', { 'do': ':silent ! cd $HOME/.vim/pack/minpac/start/tern_for_vim && npm i &> /dev/null' })
     call minpac#add('mattn/emmet-vim')
     call minpac#add('mattn/webapi-vim')
@@ -470,42 +470,15 @@ if has("autocmd")
     " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     " Use relative line numbers.
-    " http://jeffkreeftmeijer.com/2012/relative-line-numbers-in-vim-for-super-fast-movement/
+    " https://jeffkreeftmeijer.com/vim-number/
+    :set number
 
-    augroup relative_line_numbers
+    :augroup numbertoggle
+    :  autocmd!
+    :  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+    :  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+    :augroup END
 
-        autocmd!
-
-        " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        " Automatically switch to absolute
-        " line numbers when Vim loses focus.
-
-        autocmd FocusLost * :set number
-
-        " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        " Automatically switch to relative
-        " line numbers when Vim gains focus.
-
-        autocmd FocusGained * :set relativenumber
-
-        " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        " Automatically switch to absolute
-        " line numbers when Vim is in insert mode.
-
-        autocmd InsertEnter * :set number
-
-        " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-        " Automatically switch to relative
-        " line numbers when Vim is in normal mode.
-
-        autocmd InsertLeave * :set relativenumber
-
-
-    augroup END
 
     " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -538,7 +511,7 @@ endif
 
 " Use a different mapleader (default is "\").
 
-let mapleader = ","
+let mapleader = " "
 
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

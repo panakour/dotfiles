@@ -100,9 +100,21 @@ evm() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Process phone photo.
+# Resize image.
+#
+# Create a new image based on the specified image resized by the
+# specified amount.
+#
+# $1: Path to the original image.
+# $2: Resize value (default is 50%).
+#     See also: https://imagemagick.org/script/command-line-processing.php#geometry
+#
+# Usage examples:
+#
+#   * resize-image ./path/to/image.jpg 30%
+#   * resize-image ./path/to/image.jpg 1000x1000!
 
-ppp() {
+resize-image() {
 
     # Check if ImageMagick's convert command-line tool is installed.
 
@@ -113,56 +125,27 @@ ppp() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    declare option="$1"
-    declare photo="${2:-*.jpg}"
-    declare geometry="${3:-50%}"
-
-    if [ "$option" != "clean" ] &&
-       [ "$option" != "resize" ]; then
-        option="resize"
-        photo="${1:-*.jpg}"
-        geometry="${2:-50%}"
-    fi
-
-    if [[ "$(echo "${photo##*.}" | tr '[:upper:]' '[:lower:]')" != "png" ]]; then
-        newPhotoName="${photo%.*}.png"
-    else
-        newPhotoName="_${photo%.*}.png"
-    fi
-
-    if [ "$option" == "resize" ]; then
-
-        convert \
-            "$photo" \
-            -colorspace RGB \
-            +sigmoidal-contrast 11.6933 \
-            -define filter:filter=Sinc \
-            -define filter:window=Jinc \
-            -define filter:lobes=3 \
-            -sigmoidal-contrast 11.6933 \
-            -colorspace sRGB \
-            -background transparent \
-            -gravity center \
-            -resize "$geometry" \
-            +append \
-            "$newPhotoName" \
-        && printf "* %s (%s)\n" \
-                "$newPhotoName" \
-                "$geometry"
-
-        return
-    fi
+    declare path="$(dirname "$1")"
+    declare fileName="$(basename "$1")"
+    declare geometry="${2:-50%}"
 
     convert \
-        "$photo" \
-        -morphology Convolve DoG:10,10,0 \
-        -negate \
-        -normalize \
-        -blur 0x1 \
-        -channel RBG \
-        -level 10%,91%,0.1 \
-        "$newPhotoName" \
-    && printf "* %s\n" "$newPhotoName"
+        "$1" \
+        -colorspace RGB \
+        +sigmoidal-contrast 11.6933 \
+        -define filter:filter=Sinc \
+        -define filter:window=Jinc \
+        -define filter:lobes=3 \
+        -sigmoidal-contrast 11.6933 \
+        -colorspace sRGB \
+        -background transparent \
+        -gravity center \
+        -resize "$geometry" \
+        +append \
+        "$path/_$fileName" \
+    && printf "* %s (%s)\n" \
+            "$path/_$fileName" \
+            "$geometry"
 
 }
 
@@ -296,3 +279,16 @@ mysql-export-db() {
          "export db"
 }
 
+psql-container-id() {
+    cat <<< "$(docker ps -q --filter status=running --filter name=postgres --filter name=postgres -n 1)"
+}
+
+psql-create-db() {
+
+    if [[ -z "$1" ]]; then
+        printf "give a name for the db.\n"
+        return 1
+    fi
+
+    execute "docker exec -it $(psql-container-id) psql -U root -c 'CREATE DATABASE $1;'"
+}
