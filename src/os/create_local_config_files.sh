@@ -41,13 +41,14 @@ create_gitconfig_local() {
     if [ ! -e "$FILE_PATH" ] || [ -z "$FILE_PATH" ]; then
 
         printf "%s\n" \
-"[commit]
+"[gpg]
+   format = ssh
 
-    # Sign commits using GPG.
-    # https://help.github.com/articles/signing-commits-using-gpg/
+ [gpg ssh]
+   program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 
-    # gpgsign = true
-
+ [commit]
+   gpgsign = true
 
 [user]
 
