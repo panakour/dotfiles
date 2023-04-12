@@ -44,7 +44,7 @@ create_gitconfig_local() {
 "[gpg]
    format = ssh
 
- [gpg ssh]
+ [gpg \"ssh\"]
    program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 
  [commit]
