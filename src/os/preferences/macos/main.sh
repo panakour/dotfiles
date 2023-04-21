@@ -12,17 +12,12 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 ./app_store.sh
-./chrome.sh
 ./dock.sh
 ./finder.sh
-./firefox.sh
 ./keyboard.sh
 ./language_and_region.sh
-./maps.sh
-./photos.sh
 ./safari.sh
 ./terminal.sh
-./textedit.sh
 ./trackpad.sh
 ./ui_and_ux.sh
 ./security_and_privacy.sh
