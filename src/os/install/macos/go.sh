@@ -10,3 +10,4 @@ print_in_purple "\n   Golang\n\n"
 
 brew_install "Golang" "go"
 brew_install "GoLand" "goland" "--cask"
+./../gobin.sh

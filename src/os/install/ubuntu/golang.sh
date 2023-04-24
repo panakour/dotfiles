@@ -19,13 +19,6 @@ add_path() {
             "go bin dir to PATH"
     fi
 
-    declare -r CONFIGS2="export PATH=\$PATH:$(go env GOPATH)/bin"
-
-    if ! grep -q "$CONFIGS2" "$LOCAL_SHELL_CONFIG_FILE"; then
-        execute "printf '\n%s\n' '$CONFIGS2' >> $LOCAL_SHELL_CONFIG_FILE" \
-            "go bin dir to PATH"
-    fi
-
 }
 
 main() {
@@ -37,6 +30,7 @@ main() {
     tar -C /usr/local -xzf ${TAR_FILE}
     rm ${TAR_FILE}
     add_path
+    ./../gobin.sh
 }
 
 main
