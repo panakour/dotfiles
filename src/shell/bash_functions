@@ -187,7 +187,7 @@ php-container-id() {
     containerName="${1}"
 
     if [[ -z "$1" ]]; then
-        containerName=php-fpm
+        containerName=php-fpm-latest
     fi
 
     cat <<< "$(docker ps -q --filter status=running --filter name=${containerName} -n 1)"
