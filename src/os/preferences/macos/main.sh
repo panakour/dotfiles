@@ -16,6 +16,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 ./finder.sh
 ./keyboard.sh
 ./language_and_region.sh
+./date_and_time.sh
 ./safari.sh
 ./terminal.sh
 ./trackpad.sh
