@@ -23,3 +23,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 ./ui_and_ux.sh
 ./security_and_privacy.sh
 ./hotkeys.sh
+./startup_apps.sh
