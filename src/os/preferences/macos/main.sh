@@ -22,3 +22,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 ./trackpad.sh
 ./ui_and_ux.sh
 ./security_and_privacy.sh
+./hotkeys.sh
