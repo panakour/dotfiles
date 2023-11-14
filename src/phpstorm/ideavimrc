@@ -37,7 +37,7 @@ nnoremap <leader>vb :action ViewBreakpoints<CR>
 nnoremap <leader>ic :action InspectCode<CR>
 nnoremap <leader>oi :action OptimizeImports<CR>
 nnoremap <leader>re :action RenameElement<CR>
-nnoremap <leader>ra :action Refactorings.QuickListPopupAction<CR>
+nnoremap <leader>rr :action Refactorings.QuickListPopupAction<CR>
 nnoremap <leader>rf :action RenameFile<CR>
 nnoremap <leader>rc :action ReformatCode<CR>
 nnoremap <leader>run :action Run<CR>
