@@ -44,3 +44,10 @@ execute "defaults write com.google.Chrome NSUserKeyEquivalents -dict-add 'View S
 
 execute "defaults write com.google.Chrome NSUserKeyEquivalents -dict-add 'Show Full History' -string '^h'" \
   "Google Chrome Show History (^H)"
+
+
+execute "defaults write com.google.Chrome.canary NSUserKeyEquivalents -dict-add 'View Source' -string '^u'" \
+  "Google Chrome Canary View Source (^U)"
+
+execute "defaults write com.google.Chrome.canary NSUserKeyEquivalents -dict-add 'Show Full History' -string '^h'" \
+  "Google Chrome Canary Show History (^H)"
