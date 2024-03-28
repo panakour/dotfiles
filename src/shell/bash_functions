@@ -210,15 +210,107 @@ function phpbash() {
     docker exec --user=www-data -it "$(php-container-id "$@")" sh
 }
 
-function nginxrestart() {
-    docker restart "$(nginx-container-id)"
+# Helper function to resolve the directory based on an optional --dir argument
+function resolve_directory() {
+    local dirProvided=false
+    local dirName=""
+
+    for arg in "$@"; do
+        if [[ "$arg" == --dir=* ]]; then
+            dirName="${arg#*=}"
+            dirProvided=true
+            break
+        fi
+    done
+
+    # If no directory is explicitly specified, use the last part of the current working directory
+    if ! $dirProvided; then
+        dirName=$(basename "$(pwd)")
+    fi
+
+    echo "$dirName"
 }
 
-function art(){
-   dir="$1";
-   shift;
-   args="$*";
-   docker exec --user=www-data "$(php-container-id "$@")" php "${dir}"/artisan "${args}"
+# Helper function to get the container ID based on an optional --version argument
+function resolve_php_version_container_id() {
+    local defaultContainerName="php-fpm-latest"
+    local containerName="$defaultContainerName"
+    local args=("$@") # Capture all arguments passed to the function
+
+    for arg in "${args[@]}"; do
+        if [[ "$arg" == --php=* ]]; then
+            containerName="${arg#*=}"
+            break
+        fi
+    done
+
+    local containerId=$(php-container-id "$containerName")
+    if [[ -z "$containerId" ]]; then
+        echo "Error: No such container found for name/version '$containerName'"
+        return 1
+    else
+        echo "$containerId"
+    fi
+}
+
+function artisan() {
+    local containerId=$(resolve_php_version_container_id "$@")
+    [ $? -ne 0 ] && return 1 # Check for error in container ID resolution
+
+    # Resolve the working directory
+    local dir=$(resolve_directory "$@")
+
+    # Filter out --php and --dir arguments
+    local args=()
+    for arg in "$@"; do
+        if [[ "$arg" != --php=* ]] && [[ "$arg" != --dir=* ]]; then
+            args+=("$arg")
+        fi
+    done
+
+    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && php artisan ${args[*]}"
+}
+
+
+function sconsole() {
+    local containerId=$(resolve_php_version_container_id "$@")
+    [ $? -ne 0 ] && return 1 # Check for error in container ID resolution
+
+    # Resolve the working directory
+    local dir=$(resolve_directory "$@")
+
+    # Filter out --php and --dir arguments
+    local args=()
+    for arg in "$@"; do
+        if [[ "$arg" != --php=* ]] && [[ "$arg" != --dir=* ]]; then
+            args+=("$arg")
+        fi
+    done
+
+    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && php bin/console ${args[*]}"
+}
+
+function composer() {
+    local containerId=$(resolve_php_version_container_id "$@")
+    [ $? -ne 0 ] && return 1 # Check for error in container ID resolution
+
+    # Resolve the working directory
+    local dir=$(resolve_directory "$@")
+
+    # Filter out --php and --dir arguments
+    local args=()
+    for arg in "$@"; do
+        if [[ "$arg" != --php=* ]] && [[ "$arg" != --dir=* ]]; then
+            args+=("$arg")
+        fi
+    done
+
+    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && composer ${args[*]}"
+}
+
+
+function nginxrestart() {
+    docker restart "$(nginx-container-id)"
 }
 
 mysql-create-db() {
@@ -228,7 +320,7 @@ mysql-create-db() {
         return 1
     fi
 
-    execute "docker exec $(mysql-container-id) mysql -uroot -proot -e 'CREATE SCHEMA IF NOT EXISTS $1 DEFAULT CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci'" \
+    execute "docker exec $(mysql-container-id) mariadb -uroot -proot -e 'CREATE SCHEMA IF NOT EXISTS $1 DEFAULT CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci'" \
             "create db"
 }
 
@@ -239,7 +331,7 @@ mysql-drop-db() {
         return 1
     fi
 
-    execute "docker exec $(mysql-container-id) mysql -uroot -proot -e 'DROP DATABASE $1'" \
+    execute "docker exec $(mysql-container-id) mariadb -uroot -proot -e 'DROP DATABASE $1'" \
       "drop db"
 }
 
@@ -265,7 +357,7 @@ mysql-import-db() {
 
     mysql-create-db "${dbName}"
 
-    execute "docker exec -i $(mysql-container-id) mysql -uroot -proot -f ${dbName} < ${file}" \
+    execute "docker exec -i $(mysql-container-id) mariadb -uroot -proot -f ${dbName} < ${file}" \
         "import db"
 }
 
@@ -275,7 +367,7 @@ mysql-export-db() {
         return 1
     fi
 
-    execute "docker exec $(mysql-container-id) mysqldump -uroot -proot $1 > $1.sql" \
+    execute "docker exec $(mysql-container-id) mariadb-dump -uroot -proot $1 > $1.sql" \
          "export db"
 }
 
