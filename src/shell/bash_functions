@@ -2,46 +2,12 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Clone a repository and install its dependencies.
-
-clone() {
-
-    git clone "$1" \
-        || return
-
-    cd "$(basename "${1%.*}")" \
-        || return
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Check if there are dependencies to be installed.
-
-    if [ ! -f "package.json" ]; then
-        return
-    fi
-
-    # Check if the project uses Yarn.
-
-    if [ -f "yarn.lock" ] && command -v "yarn" $> /dev/null; then
-        printf "\n"
-        yarn install
-        return
-    fi
-
-    # If not, assume it uses npm.
-
-    if command -v "npm" $> /dev/null; then
-        printf "\n"
-        npm install
-    fi
-
-}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Create data URI from a file.
 
-datauri() {
+fileToBase64() {
 
     local mimeType=""
 
@@ -100,13 +66,163 @@ evm() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Search history.
+
+h() {
+    #           ┌─ Enable colors for pipe.
+    #           │  ("--color=auto" enables colors only
+    #           │   if the output is in the terminal.)
+    grep --color=always "$*" "$HISTFILE" \
+        | less --no-init --raw-control-chars
+          #    │         └─ Display ANSI color escape sequences in raw form.
+          #    └─ Don't clear the screen after quitting less.
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Optimize PDF files.
+#
+# Usage examples:
+#
+#   optimize-pdfs path/to/some/directory path/to/some/file ...
+
+optimize-pdfs() (
+
+    # Check if the pdfcpu command-line tool is installed.
+
+    if ! command -v "pdfcpu" &> /dev/null; then
+        printf "\n%s\n\n" "pdfcpu command-line tool is not installed!"
+        exit
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    get-file-size() (
+        printf "%s" "$(wc -c < "$1")"
+    )
+
+    optimize-pdf() (
+        local filePath="$(dirname "${1%/}")"
+        local fileName="_$(printf "%s" "$(basename "$1")" | tr '[:upper:]' '[:lower:]')"
+
+        local optimizedFilePath="$filePath/$fileName"
+
+        printf "* %s\n" "$1"
+
+        pdfcpu optimize "$1" "$optimizedFilePath" &> /dev/null
+        local exitCode=$?
+
+        # If something went wrong (i.e. pdfcpu didn't create
+        # the optimized file or exited with a non-zero status)
+        # or the size of the optimized file is bigger than the
+        # original file, keep the original file.
+
+        if [ ! -f "$optimizedFilePath" ]; then
+            return
+        fi
+
+        if [ $exitCode -ne 0 ] || \
+           [ "$(get-file-size "$1")" -le "$(get-file-size "$optimizedFilePath")" ];
+        then
+            rm -rf "$optimizedFilePath"
+            return
+        fi
+
+        # Otherwise, replace the original file with the optimized one.
+
+        mv -f "$optimizedFilePath" "$1" 1> /dev/null
+    )
+
+    #                     ┌─ Default to the current directory.
+    for filePath in "${@:-.}"; do
+        if [ -d "$filePath" ]; then
+            find "${filePath%/}" \
+                -depth 1 \
+                -name \*.pdf \
+                -print \
+                -type f \
+            | while read -r file; do
+                 optimize-pdf "$file"
+              done
+        elif [ -f "$filePath" ]; then
+             optimize-pdf "$filePath"
+        fi
+    done
+)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Rename media files.
+#
+# Rename the specified files so the filename is the file created date
+# in the following format:
+#
+#    <year>-<month>-<day> <hour>.<minute>.<second>
+#
+# Usage examples:
+#
+#   rename-media-files path/to/some/directory path/to/some/file ...
+
+rename-media-files() (
+
+    rename_file() (
+
+        filePath="$(dirname "${1%/}")"
+        fileName="$(printf "%s" "$(basename "$1")" | tr '[:upper:]' '[:lower:]')"
+        fileExtension="${fileName##*.}"
+
+        # iOS
+        #
+        #   * IMG_1234.PNG => 2020-05-05 05.05.05.png
+
+        if [[ "$fileName" =~ ^img_[0-9]+ ]]; then
+           mv -f "$1" "$filePath/$(stat -f %SB -t "%Y-%m-%d %H.%M.%S" "$1").$fileExtension"
+           return
+        fi
+
+        # Other
+        #
+        # Files that already contain the created date in the filename,
+        # but not in the intended format.
+        #
+        #   * 20200505_050505.dng => 2020-05-05 05.05.05.dng
+        #   * Screenshot 2020-01-02 at 03.04.05.png => 2020-01-02 03-04-05.jpg
+        #   * Screenshot_20201010-101010_Something.jpg => 2020-10-10 10-10-10.jpg
+        #   * signal-2020-05-06-07-08-09-123.mp4 => 2020-05-06 07-08-09.mp4
+
+        newFileName="$(printf "%s" "$fileName" | sed 's/[^0-9]*\([0-9]\{4\}\)[_-]\{0,1\}\([0-9]\{2\}\)[_-]\{0,1\}\([0-9]\{2\}\)[_-]\{0,1\}\( at \)\{0,1\}\([0-9]\{2\}\)[_.-]\{0,1\}\([0-9]\{2\}\)[_.-]\{0,1\}\([0-9]\{2\}\).*\(\..*\)$/\1-\2-\3 \5.\6.\7\8/')"
+
+        if [ "$newFileName" != "$fileName" ]; then
+            mv -f "$1" "$filePath/$newFileName"
+        fi
+    )
+
+    #                     ┌─ Default to the current directory.
+    for filePath in "${@:-.}"; do
+        if [ -d "$filePath" ]; then
+            find "${filePath%/}" \
+                -type f \
+                -depth 1 \
+                -print \
+            | while read -r file; do
+                rename_file "$file"
+              done
+        elif [ -f "$filePath" ]; then
+            rename_file "$filePath"
+        fi
+    done
+
+)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # Resize image.
 #
 # Create a new image based on the specified image resized by the
 # specified amount.
 #
 # $1: Path to the original image.
-# $2: Resize value (default is 50%).
+# $2: Resize value (default is '50%').
 #     See also: https://imagemagick.org/script/command-line-processing.php#geometry
 #
 # Usage examples:
@@ -116,11 +232,20 @@ evm() {
 
 resize-image() {
 
-    # Check if ImageMagick's convert command-line tool is installed.
+    # Check if ImageMagick's `magick` command-line tool is installed.
 
-    if ! command -v "convert" $> /dev/null; then
-        printf "ImageMagick's 'convert' command-line tool is not installed!"
-        exit
+    if ! command -v "magick" &> /dev/null; then
+        printf "ImageMagick's 'magick' command-line tool is not installed!\n"
+        return
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Check if the file is an image file.
+
+    if [ "$(file --mime-type --brief "$1" | cut -d'/' -f1)" != "image" ]; then
+        printf "'%s' is not an image file.\n" "$1"
+        return
     fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -129,7 +254,7 @@ resize-image() {
     declare fileName="$(basename "$1")"
     declare geometry="${2:-50%}"
 
-    convert \
+    magick \
         "$1" \
         -colorspace RGB \
         +sigmoidal-contrast 11.6933 \
@@ -151,16 +276,70 @@ resize-image() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Search history.
+# Resize video.
+#
+# Create a new video based on the specified video resized by the
+# specified amount.
+#
+# $1: Path to the original video file.
+# $2: Resolution (default is '1920:1080').
+# $3: Start time (default is '00:00:00').
+# $4: Constant Rate Factor (default is '25').
+#
+# Usage examples:
+#
+#   * resize-video ./path/to/video.mp4 "1080:1920" "00:00:01.500" "23"
 
-h() {
-    #           ┌─ Enable colors for pipe.
-    #           │  ("--color=auto" enables colors only
-    #           │   if the output is in the terminal.)
-    grep --color=always "$*" "$HISTFILE" \
-        | less --no-init --raw-control-chars
-          #    │         └─ Display ANSI color escape sequences in raw form.
-          #    └─ Don't clear the screen after quitting less.
+resize-video() {
+
+    # Check if the `ffmpeg` command-line tool is installed.
+
+    if ! command -v "ffmpeg" &> /dev/null; then
+        printf "'ffmpeg' is not installed\n"
+        return
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Check if the file is a video file.
+
+    if [ "$(file --mime-type --brief "$1" | cut -d'/' -f1)" != "video" ]; then
+        printf "'%s' is not a video file.\n" "$1"
+        return
+    fi
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    declare fileName="$(basename "$1")"
+    declare filePath="$(dirname "${1%/}")"
+    declare scale="${2:-1920:1080}"
+    declare startTime=${3:-00:00:00}
+    declare crf=${4:-25}
+
+    declare outputFileName="$filePath/_${fileName%.*}.mp4"
+
+
+    # The options used below try to offer a good balance between
+    # cross-platform interoperability, quality, and file size.
+
+    ffmpeg \
+        -i "$1" \
+        -ss "$startTime" \
+        -acodec aac \
+        -ac 2 \
+        -strict -2 \
+        -crf "$crf" \
+        -nostdin \
+        -preset veryslow \
+        -vcodec libx264 \
+        -vf "scale=${scale},setsar=1,format=yuv420p" \
+        -y \
+        "$outputFileName" \
+    && printf "* %s / %s / %s\n" \
+            "$outputFileName" \
+            "$scale" \
+            "$startTime"
+
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -290,6 +469,24 @@ function sconsole() {
     docker exec --user=www-data -it "$containerId" sh -c "cd $dir && php bin/console ${args[*]}"
 }
 
+function php() {
+    local containerId=$(resolve_php_version_container_id "$@")
+    [ $? -ne 0 ] && return 1 # Check for error in container ID resolution
+
+    # Resolve the working directory
+    local dir=$(resolve_directory "$@")
+
+    # Filter out --php and --dir arguments
+    local args=()
+    for arg in "$@"; do
+        if [[ "$arg" != --php=* ]] && [[ "$arg" != --dir=* ]]; then
+            args+=("$arg")
+        fi
+    done
+
+    docker exec --user=www-data -i "$containerId" sh -c "cd $dir && php ${args[*]}"
+}
+
 function composer() {
     local containerId=$(resolve_php_version_container_id "$@")
     [ $? -ne 0 ] && return 1 # Check for error in container ID resolution
@@ -308,6 +505,41 @@ function composer() {
     docker exec --user=www-data -it "$containerId" sh -c "cd $dir && composer ${args[*]}"
 }
 
+function phpactor() {
+    local containerId=$(resolve_php_version_container_id "$@")
+    [ $? -ne 0 ] && return 1 # Check for error in container ID resolution
+
+    # Resolve the working directory
+    local dir=$(resolve_directory "$@")
+
+    # Filter out --php and --dir arguments
+    local args=()
+    for arg in "$@"; do
+        if [[ "$arg" != --php=* ]] && [[ "$arg" != --dir=* ]]; then
+            args+=("$arg")
+        fi
+    done
+
+    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && phpactor ${args[*]}"
+}
+
+function phpactortest() {
+    local containerId=$(resolve_php_version_container_id "$@")
+    [ $? -ne 0 ] && return 1 # Check for error in container ID resolution
+
+    # Resolve the working directory
+    local dir=$(resolve_directory "$@")
+
+    # Filter out --php and --dir arguments
+    local args=()
+    for arg in "$@"; do
+        if [[ "$arg" != --php=* ]] && [[ "$arg" != --dir=* ]]; then
+            args+=("$arg")
+        fi
+    done
+
+    docker exec --user=www-data -i "$containerId" sh -c "cd $dir && phpactor ${args[*]}"
+}
 
 function nginxrestart() {
     docker restart "$(nginx-container-id)"

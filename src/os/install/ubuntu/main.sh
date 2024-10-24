@@ -14,7 +14,7 @@ upgrade
 ./build-essentials.sh
 ./git.sh
 ./browsers.sh
-./../nvm.sh
+./../volta.sh
 #./compression_tools.sh
 ./image_tools.sh
 ./misc.sh
