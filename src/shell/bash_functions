@@ -385,6 +385,11 @@ function phpup() {
         "START PHPDOCK"
 }
 
+function nginx-build() {
+    execute "cd ~/Code/phpdock/ && make nginx_build" \
+        "nginx build"
+}
+
 function phpbash() {
     docker exec --user=www-data -it "$(php-container-id "$@")" sh
 }
@@ -541,7 +546,7 @@ function phpactortest() {
     docker exec --user=www-data -i "$containerId" sh -c "cd $dir && phpactor ${args[*]}"
 }
 
-function nginxrestart() {
+function nginx-restart() {
     docker restart "$(nginx-container-id)"
 }
 
