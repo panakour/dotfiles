@@ -616,3 +616,7 @@ psql-create-db() {
 
     execute "docker exec -it $(psql-container-id) psql -U root -c 'CREATE DATABASE $1;'"
 }
+
+dps() {
+    docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Ports}}\t{{.Status}}"
+}
