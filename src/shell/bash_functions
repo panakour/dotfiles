@@ -381,7 +381,7 @@ function dockerstopall() {
 }
 
 function phpup() {
-    execute "cd ~/Code/phpdock/ && make uplocal" \
+    execute "cd ~/Code/phpdock/ && make up" \
         "START PHPDOCK"
 }
 
