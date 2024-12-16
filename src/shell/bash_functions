@@ -391,7 +391,7 @@ function nginx-build() {
 }
 
 function phpbash() {
-    docker exec --user=www-data -it "$(php-container-id "$@")" sh
+    docker exec -it "$(php-container-id "$@")" sh
 }
 
 # Helper function to resolve the directory based on an optional --dir argument
@@ -452,7 +452,7 @@ function artisan() {
         fi
     done
 
-    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && php artisan ${args[*]}"
+    docker exec -it "$containerId" sh -c "cd $dir && php artisan ${args[*]}"
 }
 
 
@@ -471,7 +471,7 @@ function sconsole() {
         fi
     done
 
-    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && php bin/console ${args[*]}"
+    docker exec -it "$containerId" sh -c "cd $dir && php bin/console ${args[*]}"
 }
 
 function php() {
@@ -489,7 +489,7 @@ function php() {
         fi
     done
 
-    docker exec --user=www-data -i "$containerId" sh -c "cd $dir && php ${args[*]}"
+    docker exec -i "$containerId" sh -c "cd $dir && php ${args[*]}"
 }
 
 function composer() {
@@ -507,7 +507,7 @@ function composer() {
         fi
     done
 
-    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && composer ${args[*]}"
+    docker exec -it "$containerId" sh -c "cd $dir && composer ${args[*]}"
 }
 
 function phpactor() {
@@ -525,7 +525,7 @@ function phpactor() {
         fi
     done
 
-    docker exec --user=www-data -it "$containerId" sh -c "cd $dir && phpactor ${args[*]}"
+    docker exec -it "$containerId" sh -c "cd $dir && phpactor ${args[*]}"
 }
 
 function phpactortest() {
@@ -543,7 +543,7 @@ function phpactortest() {
         fi
     done
 
-    docker exec --user=www-data -i "$containerId" sh -c "cd $dir && phpactor ${args[*]}"
+    docker exec -i "$containerId" sh -c "cd $dir && phpactor ${args[*]}"
 }
 
 function nginx-restart() {
