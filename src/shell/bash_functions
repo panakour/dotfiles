@@ -344,18 +344,14 @@ resize-video() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Search for text within the current directory.
+# Search for text within the current directory using ripgrep.
 
 s() {
-    grep --color=always "$*" \
-         --exclude-dir=".git" \
-         --exclude-dir="node_modules" \
-         --ignore-case \
-         --recursive \
-         . \
-        | less --no-init --raw-control-chars
-          #    │         └─ Display ANSI color escape sequences in raw form.
-          #    └─ Don't clear the screen after quitting less.
+    rg --color=always "$*" \
+       --glob '!.git' \
+       --glob '!node_modules' \
+       --glob '!vendor' \
+       --ignore-case
 }
 
 nginx-container-id() {
