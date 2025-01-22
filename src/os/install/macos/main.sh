@@ -27,3 +27,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./vscode.sh
 ./android.sh
 ./web_font_tools.sh
+./lima_colima.sh
