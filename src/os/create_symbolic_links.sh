@@ -35,6 +35,8 @@ create_symlinks() {
 
         "phpstorm/ideavimrc"
 
+        "tmux/default_tmuxinator.yml"
+
     )
 
     local i=""
@@ -52,7 +54,13 @@ create_symlinks() {
     for i in "${FILES_TO_SYMLINK[@]}"; do
 
         sourceFile="$(cd .. && pwd)/$i"
-        targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
+
+        if [[ "$i" == "tmux/default_tmuxinator.yml" ]]; then
+            targetFile="$HOME/.config/tmuxinator/$(basename "$i")"
+            mkdir -p "$(dirname "$targetFile")"
+        else
+            targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
+        fi
 
         if [ ! -e "$targetFile" ] || $skipQuestions; then
 
