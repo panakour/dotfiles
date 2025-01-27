@@ -28,3 +28,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 ./android.sh
 ./web_font_tools.sh
 ./lima_colima.sh
+./python.sh
