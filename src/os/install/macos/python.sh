@@ -9,3 +9,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 print_in_purple "\n   Python\n\n"
 
 brew_install "Python Version Management" "pyenv"
+brew_install "UV package manager" "uv"
