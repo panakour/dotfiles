@@ -205,9 +205,6 @@ function! InitPlugins() abort
     call minpac#add('scrooloose/nerdtree')
     call minpac#add('scrooloose/syntastic')
     call minpac#add('sheerun/vim-polyglot', {'type': 'opt'})
-    call minpac#add('shougo/neocomplcache.vim')
-    call minpac#add('shougo/neosnippet')
-    call minpac#add('shougo/neosnippet-snippets')
     call minpac#add('thiagoalessio/rainbow_levels.vim')
     call minpac#add('tomtom/tcomment_vim')
     call minpac#add('tpope/vim-commentary')
@@ -308,13 +305,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven
 let g:vim_markdown_folding_disabled=1
 
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-" NeoComplCache
-
-" Enable `neocomplcache` by default.
-" https://github.com/Shougo/neocomplcache.vim#installation
-
-let g:neocomplcache_enable_at_startup=1
 
 " Make `Tab` autocomplete.
 
