@@ -39,6 +39,9 @@ alias path='printf "%b\n" "${PATH//:/\\n}"'
 alias q="exit"
 alias t="tmux"
 alias y="yarn"
+alias lwdc='docker compose -f ${DOCKER_LW_DEV}docker-compose.yml \
+    -f ${DOCKER_LW_DEV}docker-compose.override.yml \
+    -f ${DOCKER_LW_DEV}extra/marketplace.yml'
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
