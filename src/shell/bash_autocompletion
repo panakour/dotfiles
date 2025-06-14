@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Load OS specific configs.
-
-. "$OS/bash_autocompletion"
