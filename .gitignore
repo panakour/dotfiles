@@ -1,2 +1,2 @@
-/.idea
-/src/vim/vim/pack/*
+.DS_Store
+.direnv/

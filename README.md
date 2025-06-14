@@ -1,12 +1,19 @@
-[![Build Status](https://travis-ci.org/panakour/dotfiles.svg?branch=master)](https://travis-ci.org/panakour/dotfiles)
+# NixOS & nix-darwin Dotfiles
 
-Inspiration and code was taken from many sources, including:
+A declarative configuration for my environment using Nix flakes, supporting both macOS (via nix-darwin) and NixOS systems.
 
-* [Mathias Bynens dotfiles][dotfiles mathias]
-* [Cătălin Mariș dotfiles][dotfiles alrra]
+## 🚀 Features
 
-<!-- Link labels: -->
+- **Cross-platform**: Works on macOS (nix-darwin) and NixOS
+- **Declarative**: Everything configured through Nix
+- **Modular**: Clean separation of concerns with reusable modules
+- **Home Manager**: Unified user environment management
+- **Flake-based**: Modern Nix flakes for reproducible builds
 
-[dotfiles mathias]: https://github.com/mathiasbynens/dotfiles
-[dotfiles alrra]: https://github.com/alrra/dotfiles
+### Some of the development tools
+- **[Ghostty](https://ghostty.org/)** - Modern terminal emulator
+- **[Fish Shell](https://fishshell.com/)** - User-friendly command line shell
+- **[Neovim](https://neovim.io/)** - Vim-based text editor with LazyVim
+- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer
+
 [license]: LICENSE.md

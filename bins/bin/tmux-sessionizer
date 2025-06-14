@@ -1,0 +1,42 @@
+#!/usr/bin/env fish
+
+# Fast tmux sessionizer - optimized version
+set PROJECT_PATHS ~/Code ~/Projects /Users/panakour/lw/src
+set INDIVIDUAL_PROJECTS /Users/panakour/lw /Users/panakour/lw/devsetup
+
+function increase
+    set p $argv[1]
+    if test "$p" != default
+        zoxide add $p
+    end
+end
+
+if test (count $argv) -eq 1
+    set sel $argv[1]
+else
+    # Direct pipeline - no temp files, minimal zoxide
+    set sel (begin
+        for path in $PROJECT_PATHS
+            test -d $path; and find $path -maxdepth 1 -mindepth 1 -type d 2>/dev/null
+        end
+        for proj in $INDIVIDUAL_PROJECTS
+            test -d $proj; and echo $proj
+        end
+    end | sort | fzf-tmux -p --prompt "  ")
+end
+
+test -z "$sel"; and exit 0
+
+set name (basename $sel | tr . _)
+
+if not pgrep tmux >/dev/null
+    tmux new -s $name -c $sel; and increase $sel
+    exit
+end
+
+if not tmux has-session -t $name 2>/dev/null
+    tmux new -ds $name -c $sel
+end
+
+tmux switch -t $name
+increase $sel

@@ -1,0 +1,25 @@
+{
+  config,
+  pkgs,
+  ...
+}:
+{
+  home-manager.users.${config.user}.home.packages = with pkgs; [
+    cargo
+    chromium
+    fd
+    ff2mpv-rust
+    ffmpeg
+    fzf
+    gcc
+    jq
+    rsync
+    signal-desktop-bin
+    stern
+    tig
+    tree
+    usbguard
+    zathura
+    zip
+  ];
+}
