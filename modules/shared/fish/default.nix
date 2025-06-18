@@ -33,6 +33,7 @@
         shellAliases = {
           d = "docker";
           dps = "docker ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Ports}}\\t{{.Status}}\"";
+          dpss = "docker ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.Status}}\"";
 
           g = "git";
           gs = "git status";
