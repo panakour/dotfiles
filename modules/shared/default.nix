@@ -8,7 +8,6 @@
     ./git.nix
     ./shell.nix
     ./tmux
-    ./zed.nix
     ./nix-index.nix
     ./nix.nix
     ./helix.nix

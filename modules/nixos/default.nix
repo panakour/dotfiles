@@ -11,5 +11,6 @@
     ./docker.nix
     ./packages.nix
     ./users.nix
+    ./zed.nix
   ];
 }

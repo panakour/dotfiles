@@ -40,6 +40,7 @@
       "signal"
       "thunderbird"
       "stats"
+      "zed"
     ];
   };
 }
