@@ -19,6 +19,8 @@
         mouse-hide-while-typing = true
         clipboard-read = "allow"
         clipboard-paste-protection = false
+        macos-option-as-alt = left
+
       '';
     };
   };
