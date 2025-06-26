@@ -5,6 +5,7 @@
       kubectl
       kustomize
       k3d
+      kubie
     ];
   };
 }
