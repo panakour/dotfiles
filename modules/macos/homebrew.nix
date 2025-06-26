@@ -41,6 +41,7 @@
       "thunderbird"
       "stats"
       "zed"
+      "google-cloud-sdk"
     ];
   };
 }
