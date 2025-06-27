@@ -6,6 +6,7 @@
       kustomize
       k3d
       kubie
+      k9s
     ];
   };
 }
