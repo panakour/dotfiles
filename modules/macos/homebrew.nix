@@ -43,5 +43,8 @@
       "zed"
       "google-cloud-sdk"
     ];
+    brews = [
+      "stripe/stripe-cli/stripe"
+    ];
   };
 }
