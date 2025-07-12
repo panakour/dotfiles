@@ -41,7 +41,7 @@
       "thunderbird"
       "stats"
       "zed"
-      "google-cloud-sdk"
+      "gcloud-cli"
     ];
     brews = [
       "stripe/stripe-cli/stripe"
