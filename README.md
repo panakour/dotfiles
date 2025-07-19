@@ -11,9 +11,10 @@ A declarative configuration for my environment using Nix flakes, supporting both
 - **Flake-based**: Modern Nix flakes for reproducible builds
 
 ### Some of the development tools
-- **[Ghostty](https://ghostty.org/)** - Modern terminal emulator
+- **[Ghostty](https://ghostty.org/)** - Pretty nice GPU accelerated Cross-platform terminal emulator
 - **[Fish Shell](https://fishshell.com/)** - User-friendly command line shell
 - **[Neovim](https://neovim.io/)** - Vim-based text editor with LazyVim
 - **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer
+- Gruvbox color scheme theme in terminal.
 
 [license]: LICENSE.md
