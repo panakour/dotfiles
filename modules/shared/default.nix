@@ -1,6 +1,7 @@
 { config, lib, ... }:
 {
   imports = [
+    ./home.nix
     ./env-vars.nix
     ./base-packages.nix
     ./fish
@@ -29,9 +30,6 @@
     backupFileExtension = "backup";
     useGlobalPkgs = true;
     useUserPackages = false;
-
-    # changelog for this version: https://nix-community.github.io/home-manager/release-notes.xhtml
-    users.${config.user}.home.stateVersion = "25.05";
   };
 
   options = {
@@ -42,4 +40,5 @@
 
     personal.enable = lib.mkEnableOption "Personal setup";
   };
+
 }
