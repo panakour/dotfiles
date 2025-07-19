@@ -9,7 +9,7 @@ inputs.nix-darwin.lib.darwinSystem {
     {
       home-manager.users.${globals.user}.imports = [
         inputs.mac-app-util.homeManagerModules.default
-        inputs.nix-index-database.hmModules.nix-index
+        inputs.nix-index-database.homeModules.nix-index
       ];
     }
   ];

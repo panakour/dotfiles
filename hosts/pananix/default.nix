@@ -8,7 +8,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/nixos
     {
       home-manager.users.${globals.user}.imports = [
-        inputs.nix-index-database.hmModules.nix-index
+        inputs.nix-index-database.homeModules.nix-index
       ];
     }
   ];
