@@ -42,6 +42,7 @@
       "stats"
       "zed"
       "gcloud-cli"
+      "redis-insight"
     ];
     brews = [
       "stripe/stripe-cli/stripe"
