@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Prints a tmux status-right segment that clearly shows the remote SSH target
+# when the active pane is running ssh; otherwise shows local OS icon + host.
+#
+# Usage: tmux-remote-indicator <pane_tty>
+
+set -euo pipefail
+
+TTY=${1-}
+if [[ -z "${TTY}" ]]; then
+  echo ""  # Nothing to show if no TTY provided
+  exit 0
+fi
+
+uname_s=$(uname -s 2>/dev/null || echo Unknown)
+case "$uname_s" in
+  Linux)  local_icon="" ;;
+  Darwin) local_icon="" ;;
+  *)      local_icon="🖥️" ;;
+esac
+
+# Determine local hostname (short on macOS, full elsewhere)
+if [[ "$uname_s" == "Darwin" ]]; then
+  local_host=$(hostname | cut -f1 -d'.')
+else
+  local_host=$(hostname)
+fi
+
+# Try to find an ssh command attached to this TTY
+ssh_cmd=$(ps -t "$TTY" -o command= 2>/dev/null | awk '/(^|\/)ssh( |$)/ {print; exit}')
+
+remote_display=""
+if [[ -n "${ssh_cmd}" ]]; then
+  # Tokenize the command and find the first non-option argument after ssh,
+  # skipping arguments to options that take a separate value.
+  # shellcheck disable=SC2206
+  parts=( $ssh_cmd )
+  found_ssh=0
+  skip_next=0
+  for tok in "${parts[@]}"; do
+    if [[ $skip_next -eq 1 ]]; then
+      skip_next=0
+      continue
+    fi
+    if [[ $found_ssh -eq 0 ]]; then
+      # Look for the ssh binary token
+      if [[ "$tok" == *"/ssh" || "$tok" == "ssh" ]]; then
+        found_ssh=1
+      fi
+      continue
+    fi
+    # After ssh: skip options and their arguments
+    if [[ "$tok" == --* ]]; then
+      # Long options may or may not take an argument; conservatively skip next
+      skip_next=1
+      continue
+    fi
+    if [[ "$tok" == -* ]]; then
+      # Single-dash options; if the option expects an argument, skip next
+      case "$tok" in
+        -[iobJcDEFILlMmOpQRSwW]) skip_next=1 ;;
+        *) ;; # options with attached arg or flags we can ignore
+      esac
+      continue
+    fi
+    # First non-option token should be destination (user@host or host)
+    dest="$tok"
+    # Strip user@ if present, and any trailing punctuation
+    dest=${dest##*@}
+    dest=${dest%%:*}
+    dest=${dest%%,*}
+    if [[ -n "$dest" ]]; then
+      remote_display="$dest"
+    fi
+    break
+  done
+fi
+
+if [[ -n "$remote_display" ]]; then
+  # Emphasize remote with colors and a lock icon
+  # tmux format sequences: #[attr=value]
+  printf '#[bold,fg=black,bg=colour203] SSH #[fg=black,bg=colour221] %s #[default] ' "$remote_display"
+else
+  # Local fallback: show OS icon + host
+  printf ' %s  %s ' "$local_icon" "$local_host"
+fi
+
