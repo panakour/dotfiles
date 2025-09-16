@@ -11,7 +11,7 @@
         #
         # https://ghostty.org/docs/config/reference
         #
-        theme = gruvbox-material
+        theme = Gruvbox Material
         auto-update-channel = tip
         # makes it maximizes the window
         window-height = 9999
