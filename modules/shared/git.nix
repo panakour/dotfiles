@@ -84,7 +84,6 @@
         ".direnv"
         "__pycache__"
         "node_modules"
-        "vendor"
         "*.log"
         ".DS_Store"
       ];
