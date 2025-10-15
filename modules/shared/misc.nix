@@ -7,6 +7,7 @@
       ffmpeg
       mkcert
       devenv
+      zstd
     ];
   };
 }
