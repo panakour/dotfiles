@@ -37,6 +37,7 @@
       nixosConfigurations = {
         pananixserver = import ./hosts/pananixserver { inherit inputs globals; };
         pananix = import ./hosts/pananix { inherit inputs globals; };
+        kidsnix = import ./hosts/kidsnix { inherit inputs globals; };
       };
 
       darwinConfigurations = {
