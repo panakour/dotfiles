@@ -25,20 +25,4 @@
     ./lazydocker.nix
     ./python.nix
   ];
-
-  config.home-manager = {
-    backupFileExtension = "backup";
-    useGlobalPkgs = true;
-    useUserPackages = false;
-  };
-
-  options = {
-    user = lib.mkOption {
-      type = lib.types.str;
-      description = "Primary user of the system";
-    };
-
-    personal.enable = lib.mkEnableOption "Personal setup";
-  };
-
 }
