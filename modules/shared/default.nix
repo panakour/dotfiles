@@ -11,7 +11,6 @@
     ./tmux
     ./nix-index.nix
     ./nix.nix
-    ./helix.nix
     ./ghostty.nix
     ./bins.nix
     ./misc.nix
@@ -25,4 +24,20 @@
     ./lazydocker.nix
     ./python.nix
   ];
+
+  config.home-manager = {
+    backupFileExtension = "backup";
+    useGlobalPkgs = true;
+    useUserPackages = false;
+  };
+
+  options = {
+    user = lib.mkOption {
+      type = lib.types.str;
+      description = "Primary user of the system";
+    };
+
+    personal.enable = lib.mkEnableOption "Personal setup";
+  };
+
 }
