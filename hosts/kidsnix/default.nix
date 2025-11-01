@@ -6,6 +6,7 @@ inputs.nixpkgs.lib.nixosSystem {
     inputs.home-manager.nixosModules.home-manager
     ./hardware-configuration.nix
     ../../modules/nixos
+    ../../modules/nixos/amd-gpu.nix
     (
       {
         config,
