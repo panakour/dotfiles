@@ -8,16 +8,18 @@
     programs.git = {
       enable = true;
 
-      userName = "panakour";
-      userEmail = "panakourweb@gmail.com";
-
       signing = {
         key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILMurx2Qcxl0cLWtwqppdTiAXeMFV4SMN9t+dXKKdwEL";
         format = "ssh";
         signByDefault = true;
       };
 
-      extraConfig = {
+      settings = {
+        user = {
+          name = "panakour";
+          email = "panakourweb@gmail.com";
+        };
+
         commit.gpgsign = true;
         gpg = {
           format = "ssh";
