@@ -28,6 +28,14 @@ inputs.nixpkgs.lib.nixosSystem {
           };
 
           services.gnome.gnome-keyring.enable = lib.mkForce false;
+          services.xserver.videoDrivers = [ "amdgpu" ];
+
+          boot.kernelParams = [
+            "amdgpu.cik_support=1"
+            "radeon.cik_support=0"
+            "amdgpu.si_support=1"
+            "radeon.si_support=0"
+          ];
 
           home-manager.users.${user} = {
             imports = [
