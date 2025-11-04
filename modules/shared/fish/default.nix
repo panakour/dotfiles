@@ -60,8 +60,8 @@
       };
 
       xdg.configFile."fish/functions" = {
-        #WIP this is not working currently source = config.lib.file.mkOutOfStoreSymlink ./functions;
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/nixdotfiles/modules/shared/fish/functions";
+        source = ./functions;
+        recursive = true;
       };
 
       xdg.configFile."fish/themes/gruvbox.theme" = {
