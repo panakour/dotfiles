@@ -8,6 +8,9 @@
       mkcert
       devenv
       zstd
+      opentofu
+      packer
+      hcloud
     ];
   };
 }
