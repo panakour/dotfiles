@@ -8,6 +8,7 @@
     ./ssh.nix
     ./bluetooth.nix
     ./packages.nix
+    ./timezone.nix
     ./users.nix
   ];
 
