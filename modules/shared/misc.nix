@@ -6,6 +6,7 @@
       openjdk17
       ffmpeg
       mkcert
+      coreutils
       devenv
       zstd
       opentofu
