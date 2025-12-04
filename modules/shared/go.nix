@@ -9,5 +9,9 @@
         env.GOPATH = "${config.home.homeDirectory}/go";
         env.GOPRIVATE = "gitlab.com/learnworlds/*";
       };
+
+      home.sessionPath = [
+        "${config.home.homeDirectory}/go/bin"
+      ];
     };
 }
