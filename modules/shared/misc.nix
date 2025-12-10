@@ -12,6 +12,7 @@
       opentofu
       packer
       hcloud
+      yt-dlp
     ];
   };
 }
