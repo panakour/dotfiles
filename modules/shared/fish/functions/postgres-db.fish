@@ -21,8 +21,8 @@ function postgres-db -d "PostgreSQL database operations: create, drop, export, i
         echo "Commands:"
         echo "  create <db_name>           - Create a new database"
         echo "  drop <db_name>             - Drop a database"
-        echo "  export <db_name> [file]    - Export database to SQL file (default: <db_name>.sql)"
-        echo "  import <file> <db_name>    - Import SQL file to database"
+        echo "  export <db_name> [file]    - Export database to gzipped SQL (default: <db_name>.sql.gz)"
+        echo "  import <file> <db_name>    - Import SQL (supports .sql and .sql.gz)"
         echo "  list                       - List all databases"
         echo "  connect [db_name]          - Connect to database (default: postgres)"
         echo "  exec <sql_command>         - Execute SQL command"
@@ -100,16 +100,18 @@ function postgres-db -d "PostgreSQL database operations: create, drop, export, i
             set output_file $argv[3]
 
             if test -z "$output_file"
-                set output_file "$db_name.sql"
+                set output_file "$db_name.sql.gz"
             end
 
             set container_id (_check_container)
             or return 1
 
             echo "Exporting database '$db_name' to '$output_file'..."
-            docker exec $container_id pg_dump -U $POSTGRES_USER -d $db_name --clean --if-exists >$output_file
+            docker exec $container_id pg_dump -U $POSTGRES_USER -d $db_name --clean --if-exists | gzip -c >$output_file
+            set dump_status $pipestatus[1]
+            set gzip_status $pipestatus[2]
 
-            if test $status -eq 0
+            if test $dump_status -eq 0 -a $gzip_status -eq 0
                 echo "Database '$db_name' exported successfully to '$output_file'."
                 return 0
             else
@@ -140,9 +142,18 @@ function postgres-db -d "PostgreSQL database operations: create, drop, export, i
             docker exec $container_id psql -U $POSTGRES_USER -d $POSTGRES_DB -c "CREATE DATABASE \"$db_name\";" 2>/dev/null
 
             echo "Importing '$sql_file' into database '$db_name'..."
-            docker exec -i $container_id psql -U $POSTGRES_USER -d $db_name <$sql_file
 
-            if test $status -eq 0
+            if string match -r '.*\\.gz$' -- $sql_file
+                gunzip -c $sql_file | docker exec -i $container_id psql -U $POSTGRES_USER -d $db_name
+                set unzip_status $pipestatus[1]
+                set psql_status $pipestatus[2]
+            else
+                cat $sql_file | docker exec -i $container_id psql -U $POSTGRES_USER -d $db_name
+                set unzip_status 0
+                set psql_status $pipestatus[2]
+            end
+
+            if test $unzip_status -eq 0 -a $psql_status -eq 0
                 echo "Database '$db_name' imported successfully from '$sql_file'."
                 return 0
             else
