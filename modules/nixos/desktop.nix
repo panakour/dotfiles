@@ -1,3 +1,7 @@
+{ config, lib, ... }:
+let
+  mkTuple = if lib ? hm && lib.hm ? gvariant then lib.hm.gvariant.mkTuple else lib.gvariant.mkTuple;
+in
 {
   # Enable the X11 windowing system
   services.xserver.enable = true;
@@ -6,10 +10,27 @@
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  programs.dconf = {
+    enable = true;
+    profiles.user.databases = [
+      {
+        settings = {
+          "org/gnome/desktop/input-sources" = {
+            sources = [
+              (mkTuple [
+                "xkb"
+                "us"
+              ])
+              (mkTuple [
+                "xkb"
+                "gr"
+              ])
+            ];
+            xkb-options = [ "grp:win_space_toggle" ];
+          };
+        };
+      }
+    ];
   };
 
   # Enable CUPS to print documents
