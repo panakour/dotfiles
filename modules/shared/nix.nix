@@ -1,13 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 {
   nix = {
-    package = pkgs.lix;
-
     optimise.automatic = true;
     gc = {
       automatic = true;
