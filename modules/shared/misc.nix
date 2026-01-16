@@ -13,6 +13,7 @@
       packer
       hcloud
       yt-dlp
+      snitch
     ];
   };
 }
