@@ -11,6 +11,7 @@
         #
         # https://ghostty.org/docs/config/reference
         #
+        shell-integration = fish
         theme = Gruvbox Material
         auto-update-channel = tip
         # makes it maximizes the window
