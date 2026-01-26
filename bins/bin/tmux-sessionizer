@@ -34,9 +34,9 @@ if not pgrep tmux >/dev/null
     exit
 end
 
-if not tmux has-session -t $name 2>/dev/null
+if not tmux has-session -t=$name 2>/dev/null
     tmux new -ds $name -c $sel
 end
 
-tmux switch -t $name
+tmux switch -t=$name
 increase $sel
