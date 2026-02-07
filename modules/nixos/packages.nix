@@ -21,5 +21,6 @@
     usbguard
     zathura
     zip
+    vlc
   ];
 }
