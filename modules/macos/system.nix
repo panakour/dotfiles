@@ -36,10 +36,6 @@
         GloballyEnabled = false;
       };
 
-      controlcenter = {
-        BatteryShowPercentage = true;
-      };
-
       loginwindow = {
         GuestEnabled = false;
       };
