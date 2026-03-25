@@ -14,7 +14,7 @@
     gcc
     jq
     rsync
-    signal-desktop-bin
+    signal-desktop
     stern
     tig
     tree
