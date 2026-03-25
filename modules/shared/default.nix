@@ -4,6 +4,7 @@
     ./home.nix
     ./env-vars.nix
     ./base-packages.nix
+    ./devops.nix
     ./fish
     ./direnv.nix
     ./git.nix
@@ -38,6 +39,12 @@
     };
 
     personal.enable = lib.mkEnableOption "Personal setup";
+
+    devops.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to install shared DevOps tooling.";
+    };
   };
 
 }

@@ -20,6 +20,7 @@ inputs.nixpkgs.lib.nixosSystem {
       {
         config = {
           user = user;
+          devops.enable = false;
           networking.hostName = "kidsnix";
 
           services.displayManager.autoLogin = {

@@ -7,11 +7,11 @@
 {
   config = lib.mkIf config.devops.enable {
     home-manager.users.${config.user}.home.packages = with pkgs; [
-      kubectl
-      kustomize
-      k3d
-      kubie
-      k9s
+      mkcert
+      devenv
+      opentofu
+      packer
+      hcloud
     ];
   };
 }

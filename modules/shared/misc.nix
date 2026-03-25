@@ -5,13 +5,8 @@
       just
       openjdk17
       ffmpeg
-      mkcert
       coreutils
-      devenv
       zstd
-      opentofu
-      packer
-      hcloud
       yt-dlp
       snitch
     ];
