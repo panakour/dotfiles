@@ -2,6 +2,21 @@
 
 A declarative configuration for my environment using Nix flakes, supporting both macOS (via nix-darwin) and NixOS systems.
 
+## macOS Requirements
+
+1. Nix
+2. Xcode Command Line Tools
+```bash
+xcode-select --install
+```
+3. Homebrew
+
+For the first activation on a fresh macOS machine, run:
+
+```bash
+sudo -H "$(command -v nix)" --extra-experimental-features 'nix-command flakes' run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake .#panamac
+```
+
 ## 🚀 Features
 
 - **Cross-platform**: Works on macOS (nix-darwin) and NixOS
