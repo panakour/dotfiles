@@ -3,6 +3,11 @@
   system = {
     primaryUser = config.user;
 
+    keyboard = {
+      enableKeyMapping = true;
+      nonUS.remapTilde = true;
+    };
+
     defaults = {
       NSGlobalDomain = {
         InitialKeyRepeat = 15;
