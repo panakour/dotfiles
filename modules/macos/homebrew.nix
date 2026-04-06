@@ -8,6 +8,7 @@
     };
 
     casks = [
+      "karabiner-elements"
       "mongodb-compass"
       "hammerspoon"
       "orbstack"
@@ -36,6 +37,7 @@
       "redis-insight"
     ];
     brews = [
+      "gh"
       "stripe/stripe-cli/stripe"
     ];
   };
