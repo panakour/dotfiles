@@ -55,11 +55,15 @@ local function moveRight()
 end
 
 local function moveUp()
-	window.focusedWindow():moveToUnit({ 0, 0, 1, 0.5 })
+	local win = window.focusedWindow()
+	if not win then return end
+	win:moveToUnit({ 0, 0, 1, 0.5 })
 end
 
 local function moveDown()
-	window.focusedWindow():moveToUnit({ 0, 0.5, 1, 0.5 })
+	local win = window.focusedWindow()
+	if not win then return end
+	win:moveToUnit({ 0, 0.5, 1, 0.5 })
 end
 
 hotkey.bind(hyper, "Left", moveLeft)
@@ -72,19 +76,29 @@ hotkey.bind(hyper, "Down", moveDown)
 hotkey.bind(hyper, "j", moveDown)
 
 hotkey.bind(hyper, "return", function()
-	window.focusedWindow():maximize()
+	local win = window.focusedWindow()
+	if not win then return end
+	win:maximize()
+end)
+
+hotkey.bind(hyper, "S", function()
+	hs.eventtap.keyStroke({ "cmd", "shift" }, "4")
+end)
+
+hotkey.bind(hyper, "5", function()
+	hs.eventtap.keyStroke({ "cmd", "shift" }, "5")
 end)
 
 local function centerLargeWindow()
 	local win = window.focusedWindow()
-	local f = win:frame()
+	if not win then return end
 	local mx = win:screen():frame()
+	local f = win:frame()
 
-	f.x, f.y = mx.x + mx.w * 0.1, mx.y + mx.h * 0.1
 	f.w, f.h = mx.w * 0.8, mx.h * 0.8
+	f.x, f.y = mx.x + (mx.w - f.w) / 2, mx.y + (mx.h - f.h) / 2
 
 	win:setFrame(f)
-	win:centerOnScreen()
 end
 
 hotkey.bind(hyper, "'", centerLargeWindow)
@@ -98,6 +112,10 @@ hotkey.bind(hyper, "B", function()
 	hs.application.launchOrFocus("Google Chrome")
 end)
 
-hotkey.bind(hyper, "G", function()
+hotkey.bind(hyper, "P", function()
 	hs.application.launchOrFocus("Phpstorm")
+end)
+
+hotkey.bind(hyper, "G", function()
+	hs.application.launchOrFocus("Goland")
 end)
