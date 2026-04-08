@@ -35,6 +35,8 @@
       "zed"
       "gcloud-cli"
       "redis-insight"
+      "brave-browser"
+      "vlc"
     ];
     brews = [
       "gh"
