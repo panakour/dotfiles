@@ -17,7 +17,7 @@ else
     # Direct pipeline - no temp files, minimal zoxide
     set sel (begin
         for path in $PROJECT_PATHS
-            test -d $path; and find $path -maxdepth 1 -mindepth 1 -type d 2>/dev/null
+            test -d $path; and find $path -maxdepth 1 -mindepth 1 -type d -not -name '_*' 2>/dev/null
         end
         for proj in $INDIVIDUAL_PROJECTS
             test -d $proj; and echo $proj
