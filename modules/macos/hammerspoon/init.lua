@@ -119,3 +119,18 @@ end)
 hotkey.bind(hyper, "G", function()
 	hs.application.launchOrFocus("Goland")
 end)
+
+-- Chrome dev shortcuts: focus Chrome (launch if needed) then send the native keystroke
+local function chromeKey(mods, key)
+	return function()
+		hs.application.launchOrFocus("Google Chrome")
+		hs.timer.doAfter(0.05, function()
+			hs.eventtap.keyStroke(mods, key)
+		end)
+	end
+end
+
+hotkey.bind(hyper, "1", chromeKey({ "cmd", "alt" }, "i")) -- DevTools (Elements)
+hotkey.bind(hyper, "2", chromeKey({ "cmd", "alt" }, "j")) -- DevTools Console
+hotkey.bind(hyper, "3", chromeKey({ "cmd", "shift" }, "r")) -- Hard reload, bypass cache
+hotkey.bind(hyper, "4", chromeKey({ "cmd", "shift" }, "n")) -- New Incognito window
