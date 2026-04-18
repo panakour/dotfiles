@@ -10,6 +10,7 @@
 
     defaults = {
       NSGlobalDomain = {
+        AppleICUForce24HourTime = true;
         InitialKeyRepeat = 15;
         KeyRepeat = 2;
         NSAutomaticCapitalizationEnabled = false;
@@ -48,6 +49,9 @@
 
       menuExtraClock = {
         Show24Hour = true;
+        ShowAMPM = false;
+        ShowDate = 2;
+        ShowDayOfWeek = false;
       };
 
     };
