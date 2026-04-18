@@ -120,6 +120,10 @@ hotkey.bind(hyper, "G", function()
 	hs.application.launchOrFocus("Goland")
 end)
 
+hotkey.bind(hyper, "F", function()
+	hs.application.launchOrFocus("Finder")
+end)
+
 -- Chrome dev shortcuts: focus Chrome (launch if needed) then send the native keystroke
 local function chromeKey(mods, key)
 	return function()
