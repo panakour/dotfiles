@@ -11,6 +11,7 @@
     ./fish.nix
     ./users.nix
     ./hammerspoon
+    ./karabiner
     ./startup-apps.nix
   ];
 }
