@@ -24,6 +24,7 @@
       dock = {
         autohide = true;
         autohide-delay = 0.0;
+        static-only = true;
       };
 
       finder = {
