@@ -10,10 +10,7 @@
       ];
 
       xdg.configFile."nvim" = {
-        #  @TODO WIP: link out of nix store should have full path otherwise is not workign  source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}"./lazyvim;
-        # more info https://github.com/nix-community/home-manager/issues/2085 should be refactored in the future
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Code/dotfiles/modules/shared/neovim/lazyvim";
-
+        source = config.lib.file.mkOutOfStoreSymlink "${config.dotfilesPath}/modules/shared/neovim/lazyvim";
       };
 
       programs = {
@@ -23,6 +20,7 @@
           defaultEditor = true;
           vimAlias = true;
           vimdiffAlias = true;
+          sideloadInitLua = true;
         };
 
       };

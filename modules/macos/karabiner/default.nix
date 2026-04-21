@@ -9,6 +9,6 @@
   home-manager.users.${config.user} = { config, ... }: {
     home.file.".config/karabiner/karabiner.json".source =
       config.lib.file.mkOutOfStoreSymlink
-        "${config.home.homeDirectory}/Code/dotfiles/modules/macos/karabiner/karabiner.json";
+        "${config.dotfilesPath}/modules/macos/karabiner/karabiner.json";
   };
 }
