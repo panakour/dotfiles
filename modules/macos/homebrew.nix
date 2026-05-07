@@ -37,6 +37,7 @@
       "redis-insight"
       "brave-browser"
       "vlc"
+      "flameshot"
     ];
     brews = [
       "gh"

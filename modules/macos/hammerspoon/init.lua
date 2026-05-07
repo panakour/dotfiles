@@ -82,7 +82,7 @@ hotkey.bind(hyper, "return", function()
 end)
 
 hotkey.bind(hyper, "S", function()
-	hs.eventtap.keyStroke({ "cmd", "shift" }, "4")
+	hs.eventtap.keyStroke({ "cmd", "shift" }, "x")
 end)
 
 hotkey.bind(hyper, "5", function()
