@@ -5,6 +5,7 @@
     ../shared
     ./boot.nix
     ./desktop.nix
+    ./nix-ld.nix
     ./ssh.nix
     ./bluetooth.nix
     ./packages.nix
