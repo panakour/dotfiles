@@ -24,6 +24,7 @@
     ./k8s.nix
     ./lazydocker.nix
     ./python.nix
+    ./flameshot.nix
   ];
 
   config.home-manager = {
