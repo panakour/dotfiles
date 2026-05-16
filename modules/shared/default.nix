@@ -25,6 +25,7 @@
     ./lazydocker.nix
     ./python.nix
     ./flameshot.nix
+    ./mise.nix
   ];
 
   config.home-manager = {
