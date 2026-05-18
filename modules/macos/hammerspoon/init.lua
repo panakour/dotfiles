@@ -56,13 +56,17 @@ end
 
 local function moveUp()
 	local win = window.focusedWindow()
-	if not win then return end
+	if not win then
+		return
+	end
 	win:moveToUnit({ 0, 0, 1, 0.5 })
 end
 
 local function moveDown()
 	local win = window.focusedWindow()
-	if not win then return end
+	if not win then
+		return
+	end
 	win:moveToUnit({ 0, 0.5, 1, 0.5 })
 end
 
@@ -77,12 +81,14 @@ hotkey.bind(hyper, "j", moveDown)
 
 hotkey.bind(hyper, "return", function()
 	local win = window.focusedWindow()
-	if not win then return end
+	if not win then
+		return
+	end
 	win:maximize()
 end)
 
 hotkey.bind(hyper, "S", function()
-	hs.eventtap.keyStroke({ "cmd", "shift" }, "x")
+	hs.eventtap.keyStroke({ "cmd", "shift" }, "4")
 end)
 
 hotkey.bind(hyper, "5", function()
@@ -91,7 +97,9 @@ end)
 
 local function centerLargeWindow()
 	local win = window.focusedWindow()
-	if not win then return end
+	if not win then
+		return
+	end
 	local mx = win:screen():frame()
 	local f = win:frame()
 
@@ -121,15 +129,31 @@ hotkey.bind(hyper, "G", function()
 end)
 
 hotkey.bind(hyper, "F", function()
-	hs.application.launchOrFocus("Finder")
+	local finder = hs.application.find("Finder")
+	local hasWindow = finder
+		and hs.fnutils.some(finder:visibleWindows() or {}, function(w)
+			return w:isStandard()
+		end)
+	if hasWindow and not finder:isFrontmost() then
+		hs.application.launchOrFocus("Finder")
+	else
+		hs.osascript.applescript([[
+			tell application "Finder"
+				activate
+				make new Finder window
+			end tell
+		]])
+	end
 end)
 
--- Chrome dev shortcuts: focus Chrome (launch if needed) then send the native keystroke
+-- Chrome dev shortcuts: focus Chrome (launch if needed) then send the native keystroke.
+-- Wait long enough that the user has released the hyper modifiers before we synthesize
+-- the keystroke — otherwise the held modifiers combine with the synthetic event.
 local function chromeKey(mods, key)
 	return function()
 		hs.application.launchOrFocus("Google Chrome")
-		hs.timer.doAfter(0.05, function()
-			hs.eventtap.keyStroke(mods, key)
+		hs.timer.doAfter(0.2, function()
+			hs.eventtap.keyStroke(mods, key, 0)
 		end)
 	end
 end
@@ -138,3 +162,7 @@ hotkey.bind(hyper, "1", chromeKey({ "cmd", "alt" }, "i")) -- DevTools (Elements)
 hotkey.bind(hyper, "2", chromeKey({ "cmd", "alt" }, "j")) -- DevTools Console
 hotkey.bind(hyper, "3", chromeKey({ "cmd", "shift" }, "r")) -- Hard reload, bypass cache
 hotkey.bind(hyper, "4", chromeKey({ "cmd", "shift" }, "n")) -- New Incognito window
+hotkey.bind(hyper, "U", chromeKey({ "cmd", "alt" }, "u")) -- View page source
+hotkey.bind(hyper, "D", chromeKey({ "cmd", "shift" }, "j")) -- View downloads
+hotkey.bind(hyper, "A", chromeKey({ "cmd", "shift" }, "a")) -- Search tabs
+hotkey.bind(hyper, "Y", chromeKey({ "cmd" }, "y")) -- History (search browsing history)
