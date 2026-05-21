@@ -16,7 +16,7 @@
 
       settings = {
         user = {
-          name = "panakour";
+          name = "Panagiotis Koursaris";
           email = "panakourweb@gmail.com";
         };
 
@@ -74,7 +74,6 @@
           condition = "gitdir:~/lw/";
           contents = {
             user = {
-              name = "panakourlw";
               email = "panagiotis@learnworlds.com";
               signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN9gHle63GwYiGaqaNexBH8UglcO+FfhUpsGQRz2036G";
             };
