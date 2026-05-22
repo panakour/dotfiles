@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 
 # Fast tmux sessionizer - optimized version
-set PROJECT_PATHS ~/Code ~/Projects /Users/panakour/lw/src
-set INDIVIDUAL_PROJECTS /Users/panakour/lw /Users/panakour/lw/devsetup
+set PROJECT_PATHS ~/Code ~/Projects
+set INDIVIDUAL_PROJECTS ~/learnworlds
 
 function increase
     set p $argv[1]
