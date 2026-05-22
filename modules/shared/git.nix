@@ -71,7 +71,7 @@
 
       includes = [
         {
-          condition = "gitdir:~/lw/";
+          condition = "gitdir:~/learnworlds/";
           contents = {
             user = {
               email = "panagiotis@learnworlds.com";
