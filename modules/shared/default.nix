@@ -17,7 +17,6 @@
     ./misc.nix
     ./search.nix
     ./go.nix
-    ./node.nix
     ./neovim
     ./atuin.nix
     ./lazygit.nix

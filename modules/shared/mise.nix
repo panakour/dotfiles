@@ -8,6 +8,7 @@
         tools = {
           usage = "latest";
           python = "latest";
+          node = "latest";
           opencode = "latest";
           codex = "latest";
         };
