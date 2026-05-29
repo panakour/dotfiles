@@ -1,36 +1,41 @@
 #!/usr/bin/env fish
 
-# Fast tmux sessionizer - optimized version
-set PROJECT_PATHS ~/Code ~/Projects
-set INDIVIDUAL_PROJECTS ~/learnworlds
+set PROJECT_ROOTS ~/Code ~/Projects
+set EXTRA_PATHS ~ ~/learnworlds ~/Downloads ~/Documents
 
-function increase
-    set p $argv[1]
-    if test "$p" != default
-        zoxide add $p
-    end
+function bump_zoxide
+    zoxide add $argv[1]
 end
 
 if test (count $argv) -eq 1
     set sel $argv[1]
 else
-    # Direct pipeline - no temp files, minimal zoxide
     set sel (begin
-        for path in $PROJECT_PATHS
+        for path in $PROJECT_ROOTS
             test -d $path; and find $path -maxdepth 1 -mindepth 1 -type d -not -name '_*' 2>/dev/null
         end
-        for proj in $INDIVIDUAL_PROJECTS
-            test -d $proj; and echo $proj
+        for proj in $EXTRA_PATHS
+            test -d $proj; or continue
+            if test "$proj" = "$HOME"
+                echo "$proj (home)"
+            else
+                echo $proj
+            end
         end
-    end | sort | fzf-tmux -p --prompt "  ")
+    end | sort -u | fzf-tmux -p --prompt "  ")
+    set sel (string replace -r ' \(home\)$' '' -- $sel)
 end
 
 test -z "$sel"; and exit 0
 
-set name (basename $sel | tr . _)
+if test "$sel" = "$HOME"
+    set name home
+else
+    set name (string replace -a . _ (path basename $sel))
+end
 
 if not pgrep tmux >/dev/null
-    tmux new -s $name -c $sel; and increase $sel
+    tmux new -s $name -c $sel; and bump_zoxide $sel
     exit
 end
 
@@ -39,4 +44,4 @@ if not tmux has-session -t=$name 2>/dev/null
 end
 
 tmux switch -t=$name
-increase $sel
+bump_zoxide $sel
