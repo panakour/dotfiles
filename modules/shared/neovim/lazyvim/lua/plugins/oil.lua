@@ -18,7 +18,17 @@ return {
       show_hidden = true,
     },
   },
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+    {
+      "folke/snacks.nvim",
+      opts = {
+        image = {
+          enabled = true,
+        },
+      },
+    },
+  },
   init = function()
     vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
   end,
