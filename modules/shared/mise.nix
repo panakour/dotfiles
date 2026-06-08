@@ -11,6 +11,7 @@
           node = "latest";
           opencode = "latest";
           codex = "latest";
+          imagemagick = "latest";
         };
       };
     };
