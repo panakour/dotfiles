@@ -41,7 +41,7 @@
     ];
     brews = [
       "gh"
-      "stripe/stripe-cli/stripe"
+      "stripe-cli"
     ];
   };
 }
