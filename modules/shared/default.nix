@@ -4,7 +4,6 @@
     ./home.nix
     ./env-vars.nix
     ./base-packages.nix
-    ./devops.nix
     ./fish
     ./direnv.nix
     ./git.nix

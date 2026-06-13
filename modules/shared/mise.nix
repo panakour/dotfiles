@@ -12,6 +12,10 @@
           opencode = "latest";
           codex = "latest";
           imagemagick = "latest";
+          mkcert = "latest";
+          opentofu = "latest";
+          packer = "latest";
+          hcloud = "latest";
         };
       };
     };
