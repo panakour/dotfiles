@@ -16,6 +16,7 @@
           opentofu = "latest";
           packer = "latest";
           hcloud = "latest";
+          mago = "latest";
         };
       };
     };
