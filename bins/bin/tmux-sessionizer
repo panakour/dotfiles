@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set PROJECT_ROOTS ~/Code ~/Projects
+set PROJECT_ROOTS ~/Code ~/Projects ~/learnworlds-worktrees
 set EXTRA_PATHS ~ ~/learnworlds ~/Downloads ~/Documents
 
 function bump_zoxide
