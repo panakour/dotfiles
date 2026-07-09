@@ -5,6 +5,9 @@
       enable = true;
       enableFishIntegration = true;
       globalConfig = {
+        settings = {
+          trusted_config_paths = [ "~/learnworlds-worktrees" ];
+        };
         tools = {
           usage = "latest";
           python = "latest";
