@@ -20,6 +20,7 @@
           packer = "latest";
           hcloud = "latest";
           mago = "latest";
+          "1password-cli" = "latest";
           "github:psviderski/uncloud" = {
             version = "latest";
             exe = "uc";
