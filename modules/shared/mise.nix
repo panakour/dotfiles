@@ -20,6 +20,10 @@
           packer = "latest";
           hcloud = "latest";
           mago = "latest";
+          "github:psviderski/uncloud" = {
+            version = "latest";
+            exe = "uc";
+          };
         };
       };
     };
