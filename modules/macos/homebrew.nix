@@ -36,14 +36,9 @@
       "thunderbird"
       "stats"
       "zed"
-      "gcloud-cli"
       "redis-insight"
       "brave-browser"
       "vlc"
-    ];
-    brews = [
-      "gh"
-      "stripe-cli"
     ];
   };
 }
