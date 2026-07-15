@@ -16,6 +16,7 @@
           codex = "latest";
           imagemagick = "latest";
           mkcert = "latest";
+          yt-dlp = "latest";
           opentofu = "latest";
           packer = "latest";
           hcloud = "latest";

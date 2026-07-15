@@ -7,7 +7,6 @@
       ffmpeg
       coreutils
       zstd
-      yt-dlp
       snitch
     ];
   };
