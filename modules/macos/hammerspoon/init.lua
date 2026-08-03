@@ -1,5 +1,6 @@
 local hotkey = require("hs.hotkey")
 local window = require("hs.window")
+local windowFilter = require("hs.window.filter")
 
 local hyper = { "cmd", "alt", "ctrl", "shift" }
 
@@ -78,6 +79,52 @@ hotkey.bind(hyper, "Up", moveUp)
 hotkey.bind(hyper, "k", moveUp)
 hotkey.bind(hyper, "Down", moveDown)
 hotkey.bind(hyper, "j", moveDown)
+
+local function moveToAdjacentScreen(direction)
+	local win = window.focusedWindow()
+	if not win then
+		return
+	end
+
+	local currentScreen = win:screen()
+	local targetScreen = direction == "next" and currentScreen:next() or currentScreen:previous()
+	if targetScreen:id() ~= currentScreen:id() then
+		local screenFrame = currentScreen:frame()
+		local windowFrame = win:frame()
+		local tolerance = 8
+		local wasMaximized = math.abs(windowFrame.x - screenFrame.x) < tolerance
+			and math.abs(windowFrame.y - screenFrame.y) < tolerance
+			and math.abs(windowFrame.w - screenFrame.w) < tolerance
+			and math.abs(windowFrame.h - screenFrame.h) < tolerance
+		local unitFrame = currentScreen:toUnitRect(windowFrame)
+		win:move(unitFrame, targetScreen, true, 0)
+		if wasMaximized then
+			win:maximize(0)
+		end
+	end
+end
+
+hotkey.bind(hyper, "[", function()
+	moveToAdjacentScreen("previous")
+end)
+hotkey.bind(hyper, "]", function()
+	moveToAdjacentScreen("next")
+end)
+
+hotkey.bind(hyper, "m", function()
+	local current = window.focusedWindow()
+	if not current then
+		return
+	end
+
+	local currentScreenID = current:screen():id()
+	for _, candidate in ipairs(windowFilter.defaultCurrentSpace:getWindows()) do
+		if candidate:screen():id() ~= currentScreenID then
+			candidate:focus()
+			return
+		end
+	end
+end)
 
 hotkey.bind(hyper, "return", function()
 	local win = window.focusedWindow()
