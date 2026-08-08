@@ -42,6 +42,25 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "Change Globe/Fn to left Control on built-in keyboards",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [{ "is_built_in_keyboard": true }],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "apple_vendor_top_case_key_code": "keyboard_fn",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "left_control" }],
+                                "type": "basic"
+                            }
+                        ]
                     }
                 ]
             },
@@ -49,10 +68,6 @@
                 {
                     "identifiers": { "is_keyboard": true },
                     "simple_modifications": [
-                        {
-                            "from": { "apple_vendor_top_case_key_code": "keyboard_fn" },
-                            "to": [{ "key_code": "left_control" }]
-                        },
                         {
                             "from": { "key_code": "grave_accent_and_tilde" },
                             "to": [{ "key_code": "left_shift" }]
