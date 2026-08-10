@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   home-manager.users.${config.user} = {
     programs.mise = {
@@ -29,6 +29,13 @@
             version = "latest";
             exe = "uc";
           };
+        }
+        // lib.optionalAttrs config.devops.enable {
+          kubectl = "latest";
+          kustomize = "latest";
+          k3d = "latest";
+          kubie = "latest";
+          k9s = "latest";
         };
       };
     };

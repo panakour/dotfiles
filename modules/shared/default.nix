@@ -19,7 +19,6 @@
     ./neovim
     ./atuin.nix
     ./lazygit.nix
-    ./k8s.nix
     ./lazydocker.nix
     ./python.nix
     ./flameshot.nix
