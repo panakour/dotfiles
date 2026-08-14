@@ -7,6 +7,7 @@
       globalConfig = {
         settings = {
           trusted_config_paths = [ "~/learnworlds-worktrees" ];
+          go.set_gobin = false;
         };
         tools = {
           usage = "latest";
