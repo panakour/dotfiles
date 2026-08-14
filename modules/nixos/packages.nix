@@ -12,10 +12,8 @@
     ffmpeg
     fzf
     gcc
-    jq
     rsync
     signal-desktop
-    stern
     tig
     tree
     usbguard

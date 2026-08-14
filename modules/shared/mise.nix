@@ -25,6 +25,9 @@
           gcloud = "latest";
           stripe = "latest";
           "1password-cli" = "latest";
+          just = "latest";
+          jq = "latest";
+          "github:karol-broda/snitch" = "latest";
           "github:psviderski/uncloud" = {
             version = "latest";
             exe = "uc";
@@ -36,6 +39,7 @@
           k3d = "latest";
           kubie = "latest";
           k9s = "latest";
+          stern = "latest";
         };
       };
     };

@@ -2,12 +2,10 @@
 {
   home-manager.users.${config.user} = {
     home.packages = with pkgs; [
-      just
       openjdk17
       ffmpeg
       coreutils
       zstd
-      snitch
     ];
   };
 }
