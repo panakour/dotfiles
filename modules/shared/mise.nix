@@ -11,6 +11,7 @@
         tools = {
           usage = "latest";
           python = "latest";
+          uv = "latest";
           node = "latest";
           opencode = "latest";
           codex = "latest";

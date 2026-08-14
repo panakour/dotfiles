@@ -20,7 +20,6 @@
     ./atuin.nix
     ./lazygit.nix
     ./lazydocker.nix
-    ./python.nix
     ./flameshot.nix
     ./mise.nix
   ];
