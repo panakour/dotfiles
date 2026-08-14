@@ -13,6 +13,7 @@
           python = "latest";
           uv = "latest";
           node = "latest";
+          go = "latest";
           opencode = "latest";
           codex = "latest";
           imagemagick = "latest";
