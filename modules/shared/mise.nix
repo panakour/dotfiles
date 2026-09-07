@@ -29,6 +29,7 @@
           stripe = "latest";
           "1password-cli" = "latest";
           just = "latest";
+          hunk = "latest";
           jq = "latest";
           "github:karol-broda/snitch" = "latest";
           "github:psviderski/uncloud" = {
