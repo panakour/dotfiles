@@ -19,7 +19,6 @@
       "slack"
       "scroll-reverser"
       "caffeine"
-      "android-file-transfer"
       "android-studio"
       "dbeaver-community"
       "discord"
