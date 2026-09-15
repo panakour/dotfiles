@@ -3,7 +3,7 @@
   home-manager.users.${config.user} = {
 
     #broken on darwin
-    home.packages = pkgs.lib.optional (!pkgs.stdenv.isDarwin) pkgs.ghostty;
+    home.packages = pkgs.lib.optional (!pkgs.stdenv.hostPlatform.isDarwin) pkgs.ghostty;
 
     xdg.configFile."ghostty/config" = {
       text = ''

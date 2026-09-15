@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   userName = config.user;
-  homeDir = if pkgs.stdenv.isDarwin then "/Users/${userName}" else "/home/${userName}";
+  homeDir = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/${userName}" else "/home/${userName}";
 in
 {
   config.home-manager.users.${userName} = {
