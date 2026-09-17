@@ -31,6 +31,7 @@
           just = "latest";
           hunk = "latest";
           jq = "latest";
+          herdr = "latest";
           "github:karol-broda/snitch" = "latest";
           "github:psviderski/uncloud" = {
             version = "latest";
