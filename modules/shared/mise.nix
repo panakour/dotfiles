@@ -31,7 +31,12 @@
           just = "latest";
           hunk = "latest";
           jq = "latest";
-          herdr = "latest";
+          rust = "1.96.1";
+          zig = "0.16.0";
+          "cargo:https://github.com/panakour/herdr" = {
+            version = "rev:c0ad66e89cdb26aa2b0f4793fecfa65984c266fc";
+            locked = true;
+          };
           "github:karol-broda/snitch" = "latest";
           "github:psviderski/uncloud" = {
             version = "latest";

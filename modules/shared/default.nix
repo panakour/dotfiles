@@ -8,7 +8,7 @@
     ./direnv.nix
     ./git.nix
     ./shell.nix
-    ./tmux
+    ./herdr
     ./nix-index.nix
     ./nix.nix
     ./ghostty.nix

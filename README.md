@@ -29,7 +29,7 @@ sudo -H "$(command -v nix)" --extra-experimental-features 'nix-command flakes' r
 - **[Ghostty](https://ghostty.org/)** - Pretty nice GPU accelerated Cross-platform terminal emulator
 - **[Fish Shell](https://fishshell.com/)** - User-friendly command line shell
 - **[Neovim](https://neovim.io/)** - Vim-based text editor with LazyVim
-- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer
+- **[Herdr](https://herdr.dev/)** - Terminal workspace manager
 - Gruvbox color scheme theme in terminal.
 
 [license]: LICENSE.md

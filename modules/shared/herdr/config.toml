@@ -1,0 +1,38 @@
+onboarding = false
+
+[theme]
+name = "gruvbox"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+a"
+settings = "prefix+period"
+# These cycle workspaces within a project session; prefix+p picks a project.
+previous_workspace = "prefix+s"
+next_workspace = "prefix+shift+s"
+last_pane = "prefix+o"
+open_notification_target = "prefix+shift+o"
+previous_tab = "prefix+shift+p"
+rename_pane = "prefix+comma"
+split_vertical = ["prefix+v", "prefix+percent"]
+split_horizontal = ["prefix+minus", "prefix+double_quote"]
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+swap_pane_left = ""
+swap_pane_down = ""
+swap_pane_up = ""
+swap_pane_right = ""
+
+[[keys.command]]
+key = "prefix+p"
+type = "popup"
+command = "herdr-sessionizer"
+description = "switch project"
+width = "60%"
+height = "60%"
+
+[ui]
+prompt_new_tab_name = false
+window_title = "{workspace} / {tab}"

@@ -54,7 +54,7 @@
           e = "nvim";
           v = "nvim";
 
-          tm = "tmux new -A -s default";
+          tm = "herdr";
 
         };
       };

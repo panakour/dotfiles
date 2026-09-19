@@ -1,0 +1,50 @@
+#!/usr/bin/env fish
+
+set PROJECT_ROOTS ~/Code ~/Projects
+set EXTRA_PATHS ~ ~/learnworlds ~/Downloads ~/Documents
+
+if test (count $argv) -gt 1
+    printf 'usage: herdr-sessionizer [directory]\n' >&2
+    exit 2
+else if test (count $argv) -eq 1
+    set sel $argv[1]
+else
+    set sel (begin
+        for path in $PROJECT_ROOTS
+            test -d $path; and find $path -maxdepth 1 -mindepth 1 -type d -not -name '_*' 2>/dev/null
+        end
+        for proj in $EXTRA_PATHS
+            test -d $proj; or continue
+            if test "$proj" = "$HOME"
+                echo "$proj (home)"
+            else
+                echo $proj
+            end
+        end
+    end | sort -u | fzf --prompt "  ")
+    set sel (string replace -r ' \(home\)$' '' -- $sel)
+end
+
+test -z "$sel"; and exit 0
+
+if not test -d "$sel"
+    printf 'Not a directory: %s\n' "$sel" >&2
+    exit 1
+end
+set sel (path resolve -- "$sel")
+or exit $status
+
+if test "$sel" = (path resolve -- "$HOME")
+    set name home
+else
+    # Keep names readable, valid for Herdr, and short enough for Unix sockets.
+    # Canonical-path identity distinguishes equal basenames and resolves symlinks.
+    set label (path basename -- "$sel" | string replace -ar '[^A-Za-z0-9._-]' '_' | string sub -l 24)
+    set digest (printf '%s' "$sel" | sha256sum)
+    or exit $status
+    set name "$label-"(string sub -l 12 -- "$digest")
+end
+
+herdr session switch --cwd "$sel" -- "$name" >/dev/null
+or exit $status
+zoxide add "$sel"
