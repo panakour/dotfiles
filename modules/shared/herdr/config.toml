@@ -37,6 +37,14 @@ description = "switch project"
 width = "60%"
 height = "60%"
 
+[[keys.command]]
+key = "prefix+u"
+type = "popup"
+command = "claude-usage"
+description = "Claude usage"
+width = "50%"
+height = 15
+
 [ui]
 prompt_new_tab_name = false
 window_title = "{workspace} / {tab}"

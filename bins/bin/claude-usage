@@ -1,0 +1,70 @@
+#!/bin/sh
+set -eu
+
+token() {
+  if [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then
+    printf '%s' "$CLAUDE_CODE_OAUTH_TOKEN"
+    return
+  fi
+  file="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/.credentials.json"
+  if [ -f "$file" ]; then
+    jq -r '.claudeAiOauth.accessToken' "$file"
+  else
+    security find-generic-password -s "Claude Code-credentials" -w | jq -r '.claudeAiOauth.accessToken'
+  fi
+}
+
+json=$(curl -sf --max-time 15 https://api.anthropic.com/api/oauth/usage \
+  -H "Authorization: Bearer $(token)" \
+  -H "anthropic-beta: oauth-2025-04-20")
+
+width=$(tput cols 2>/dev/null || echo 80)
+
+resets() {
+  case "$1" in
+    "") echo "" ;;
+    *)
+      epoch=$(/bin/date -j -u -f "%Y-%m-%dT%H:%M:%S" "$(printf '%s' "$1" | cut -c1-19)" +%s)
+      now=$(date +%s)
+      mins=$(((epoch - now) / 60))
+      if [ "$mins" -lt 1440 ]; then
+        printf 'Resets in %d hr %d min' $((mins / 60)) $((mins % 60))
+      else
+        printf 'Resets %s' "$(/bin/date -r "$epoch" '+%a %-I:%M %p')"
+      fi
+      ;;
+  esac
+}
+
+row() {
+  label=$1 right=$2 pct=$3 color=$4
+  printf '%s%*s\n' "$label" $((width - ${#label})) "$right"
+  fill=$((pct * width / 100))
+  [ "$fill" -gt "$width" ] && fill=$width
+  printf '\033[%sm' "$color"
+  i=0; while [ "$i" -lt "$fill" ]; do printf '█'; i=$((i + 1)); done
+  printf '\033[2m'
+  while [ "$i" -lt "$width" ]; do printf '░'; i=$((i + 1)); done
+  printf '\033[0m\n\n'
+}
+
+printf '%s' "$json" | jq -r '
+  .limits[]
+  | (if .kind == "session" then "5-hour limit"
+     elif .kind == "weekly_all" then "Weekly · all models"
+     else "Weekly · " + (.scope.model.display_name // .scope.surface // "other") end)
+  + "\t" + (.percent | tostring) + "\t" + (.resets_at // "")
+' | while IFS="$(printf '\t')" read -r label pct at; do
+  row "$label" "$(resets "$at")  ${pct}%" "$pct" 34
+done
+
+printf '%s' "$json" | jq -r '.spend | select(.enabled == true) | "\(.used.amount_minor)\t\(.limit.amount_minor)\t\(.percent)"' |
+  while IFS="$(printf '\t')" read -r used limit pct; do
+    color=34; [ "$pct" -ge 100 ] && color=31
+    row "Usage credits" "$(printf '$%d.%02d of $%d.%02d' $((used / 100)) $((used % 100)) $((limit / 100)) $((limit % 100)))" "$pct" "$color"
+  done
+
+if [ -t 0 ]; then
+  printf '\033[2mpress any key to close\033[0m'
+  stty -echo -icanon; dd bs=1 count=1 2>/dev/null >/dev/null; stty echo icanon
+fi
