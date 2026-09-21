@@ -31,7 +31,10 @@
           just = "latest";
           hunk = "latest";
           jq = "latest";
-          rust = "1.96.1";
+          rust = {
+            version = "1.96.1";
+            components = "rust-analyzer";
+          };
           zig = "0.16.0";
           "cargo:https://github.com/panakour/herdr" = {
             version = "rev:c0ad66e89cdb26aa2b0f4793fecfa65984c266fc";
