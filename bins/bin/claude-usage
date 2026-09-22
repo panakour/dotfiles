@@ -14,57 +14,75 @@ token() {
   fi
 }
 
-json=$(curl -sf --max-time 15 https://api.anthropic.com/api/oauth/usage \
-  -H "Authorization: Bearer $(token)" \
-  -H "anthropic-beta: oauth-2025-04-20")
-
-width=$(tput cols 2>/dev/null || echo 80)
+wait_key() {
+  [ -t 0 ] || return 0
+  printf ' \033[2many key to close\033[0m'
+  stty -echo -icanon; dd bs=1 count=1 2>/dev/null >/dev/null; stty echo icanon
+}
 
 resets() {
-  case "$1" in
-    "") echo "" ;;
-    *)
-      epoch=$(/bin/date -j -u -f "%Y-%m-%dT%H:%M:%S" "$(printf '%s' "$1" | cut -c1-19)" +%s)
-      now=$(date +%s)
-      mins=$(((epoch - now) / 60))
-      if [ "$mins" -lt 1440 ]; then
-        printf 'Resets in %d hr %d min' $((mins / 60)) $((mins % 60))
-      else
-        printf 'Resets %s' "$(/bin/date -r "$epoch" '+%a %-I:%M %p')"
-      fi
-      ;;
-  esac
+  [ -n "$1" ] || return 0
+  epoch=$(/bin/date -j -u -f "%Y-%m-%dT%H:%M:%S" "$(printf '%s' "$1" | cut -c1-19)" +%s)
+  mins=$(((epoch - $(date +%s)) / 60))
+  if [ "$mins" -lt 60 ]; then printf 'resets in %dm' "$mins"
+  elif [ "$mins" -lt 1440 ]; then printf 'resets in %dh %02dm' $((mins / 60)) $((mins % 60))
+  else printf 'resets %s' "$(/bin/date -r "$epoch" '+%a %-I:%M %p')"
+  fi
+}
+
+repeat() {
+  i=0; while [ "$i" -lt "$2" ]; do printf '%s' "$1"; i=$((i + 1)); done
 }
 
 row() {
-  label=$1 right=$2 pct=$3 color=$4
-  printf '%s%*s\n' "$label" $((width - ${#label})) "$right"
-  fill=$((pct * width / 100))
-  [ "$fill" -gt "$width" ] && fill=$width
-  printf '\033[%sm' "$color"
-  i=0; while [ "$i" -lt "$fill" ]; do printf '█'; i=$((i + 1)); done
-  printf '\033[2m'
-  while [ "$i" -lt "$width" ]; do printf '░'; i=$((i + 1)); done
-  printf '\033[0m\n\n'
+  label=$1 right=$2 pct=$3
+  color=34; [ "$pct" -ge 70 ] && color=33; [ "$pct" -ge 90 ] && color=31
+  space=$((inner - ${#label} - ${#right}))
+  if [ "$space" -lt 2 ]; then
+    right="" space=$((inner - ${#label}))
+    [ "$space" -ge 0 ] || { label=$(printf '%.*s' "$inner" "$label"); space=0; }
+  fi
+  printf ' \033[1m%s\033[0m%*s\033[2m%s\033[0m\n' "$label" "$space" "" "$right"
+  fill=$((pct * bar_w / 100)); [ "$fill" -le "$bar_w" ] || fill=$bar_w
+  printf ' \033[%sm' "$color"; repeat '█' "$fill"
+  printf '\033[0;2m'; repeat '░' $((bar_w - fill))
+  printf '\033[0;%s;1m%5s\033[0m\n' "$color" "${pct}%"
+  [ "$gap" -eq 0 ] || printf '\n'
 }
 
-printf '%s' "$json" | jq -r '
-  .limits[]
-  | (if .kind == "session" then "5-hour limit"
-     elif .kind == "weekly_all" then "Weekly · all models"
-     else "Weekly · " + (.scope.model.display_name // .scope.surface // "other") end)
-  + "\t" + (.percent | tostring) + "\t" + (.resets_at // "")
-' | while IFS="$(printf '\t')" read -r label pct at; do
-  row "$label" "$(resets "$at")  ${pct}%" "$pct" 34
-done
-
-printf '%s' "$json" | jq -r '.spend | select(.enabled == true) | "\(.used.amount_minor)\t\(.limit.amount_minor)\t\(.percent)"' |
-  while IFS="$(printf '\t')" read -r used limit pct; do
-    color=34; [ "$pct" -ge 100 ] && color=31
-    row "Usage credits" "$(printf '$%d.%02d of $%d.%02d' $((used / 100)) $((used % 100)) $((limit / 100)) $((limit % 100)))" "$pct" "$color"
-  done
-
-if [ -t 0 ]; then
-  printf '\033[2mpress any key to close\033[0m'
-  stty -echo -icanon; dd bs=1 count=1 2>/dev/null >/dev/null; stty echo icanon
+out=$(curl -s --max-time 15 -w '\n%{http_code}' https://api.anthropic.com/api/oauth/usage \
+  -H "Authorization: Bearer $(token)" \
+  -H "anthropic-beta: oauth-2025-04-20") || out="
+000"
+status=${out##*
+}
+if [ "$status" != 200 ]; then
+  printf ' \033[31mCould not load usage\033[0m \033[2m(HTTP %s)\033[0m\n' "$status"
+  wait_key; exit 1
 fi
+
+rows=$(printf '%s' "${out%
+*}" | jq -r '
+  def money: "$\(. / 100 | floor).\(. % 100 | tostring | ("0" + .)[-2:])";
+  (.limits[] | [
+    (if .kind == "session" then "5-hour"
+     elif .kind == "weekly_all" then "Weekly · all models"
+     else "Weekly · " + (.scope.model.display_name // .scope.surface // "other") end),
+    .percent, (.resets_at // "")
+  ]),
+  (.spend | select(.enabled == true) | [
+    "Extra usage", .percent,
+    "\(.used.amount_minor | money) / \(.limit.amount_minor | money)"
+  ]) | @tsv')
+
+size=$( { stty size </dev/tty; } 2>/dev/null || echo "24 80")
+lines=${size% *} cols=${size#* }
+inner=$((cols - 2)); [ "$inner" -ge 20 ] || inner=20
+bar_w=$((inner - 6))
+gap=1; [ $(( $(printf '%s\n' "$rows" | wc -l) * 3 + 1 )) -le "$lines" ] || gap=0
+
+printf '%s\n' "$rows" | while IFS="$(printf '\t')" read -r label pct right; do
+  case $right in ????-??-??T*) right=$(resets "$right") ;; esac
+  row "$label" "$right" "$pct"
+done
+wait_key

@@ -42,8 +42,8 @@ key = "prefix+u"
 type = "popup"
 command = "claude-usage"
 description = "Claude usage"
-width = "50%"
-height = 15
+width = "60%"
+height = 16
 
 [ui]
 prompt_new_tab_name = false
