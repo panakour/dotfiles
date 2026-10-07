@@ -39,7 +39,7 @@
           review = "!hunk diff $(git base)...HEAD --watch";
           review-modified = "!git diff --diff-filter=M $(git base)...HEAD | hunk patch -";
           review-pr = "!f() { gh pr diff \"$@\" | hunk patch -; }; f";
-          review-wip = "!hunk diff --watch";
+          review-wip = "!hunk diff HEAD --watch";
         };
 
         branch.autosetuprebase = "always";
