@@ -5,6 +5,7 @@
       text = ''
         theme = "gruvbox-dark-hard"
         sidebar = true
+        mode = "unified"
       '';
     };
   };
