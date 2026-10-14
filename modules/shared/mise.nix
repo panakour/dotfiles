@@ -30,6 +30,7 @@
           just = "latest";
           hunk = "latest";
           jq = "latest";
+          atuin = "latest";
           rust = {
             version = "1.96.1";
             components = "rust-analyzer";
