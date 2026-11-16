@@ -28,7 +28,6 @@
           stripe = "latest";
           "1password-cli" = "latest";
           just = "latest";
-          hunk = "latest";
           jq = "latest";
           atuin = "latest";
           rust = {
@@ -41,6 +40,7 @@
             locked = true;
           };
           "github:karol-broda/snitch" = "latest";
+          "github:tomasz-tomczyk/crit" = "latest";
           "github:psviderski/uncloud" = {
             version = "latest";
             exe = "uc";

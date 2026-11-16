@@ -36,10 +36,11 @@
           retag = "!f() { git tag -f -a \"$1\" -m \"$1\" && git push origin \"$1\" -f; }; f";
           deltag = "!f() { git tag -d \"$1\" && git push --delete origin \"$1\"; }; f";
           base = "!git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/main";
-          review = "!hunk diff $(git base)...HEAD --watch";
-          review-modified = "!git diff --diff-filter=M $(git base)...HEAD | hunk patch -";
-          review-pr = "!f() { gh pr diff \"$@\" | hunk patch -; }; f";
-          review-wip = "!hunk diff HEAD --watch";
+          review = "!crit --base-branch \"$(git base)\"";
+          review-modified = "!f() { b=$(git base); files=$(git diff --name-only --diff-filter=M \"$b\"...HEAD); [ -n \"$files\" ] || { echo 'No modified files'; return 0; }; crit --base-branch \"$b\" $files; }; f";
+          review-wip = "!crit --base-branch HEAD";
+          review-pr = "!f() { crit --pr \"$@\"; }; f";
+          review-range = "!f() { crit --range \"$1\"; }; f";
         };
 
         branch.autosetuprebase = "always";
