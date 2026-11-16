@@ -31,7 +31,7 @@
           jq = "latest";
           atuin = "latest";
           rust = {
-            version = "1.96.1";
+            version = "latest";
             components = "rust-analyzer";
           };
           zig = "0.16.0";
