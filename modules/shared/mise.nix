@@ -43,7 +43,7 @@
           "github:tomasz-tomczyk/crit" = "latest";
           "github:psviderski/uncloud" = {
             version = "latest";
-            exe = "uc";
+            matching = "uc_";
           };
         }
         // lib.optionalAttrs config.devops.enable {
