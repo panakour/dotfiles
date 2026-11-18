@@ -6,6 +6,7 @@
       ffmpeg
       coreutils
       zstd
+      procs
     ];
   };
 }
